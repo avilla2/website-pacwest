@@ -1,0 +1,129 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+@keyframes spin {
+  from {
+    transform:rotate(0deg);
+}
+  to {
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes backwardspin {
+  from {
+    transform:rotate(0deg);
+}
+  to {
+    transform:rotate(-360deg);
+  }
+}
+
+#loading {
+  margin-top: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loadingframe{
+  transform-origin: center;
+  animation-name: spin;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+#svgframe {
+  position: relative;
+}
+
+#betalogo {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  left: 75px;
+  top: 75px;
+  animation-name: backwardspin;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+}
+
+.link {
+  height: 30px;
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+/* Hide extra text */
+.mask {
+  position: relative;
+  padding: 0;
+  height: 18px;
+
+  /*  Remove overflow to see how it works　:) */
+  overflow: hidden;
+}
+
+.link-container {
+  transition: transform 0.4s ease;
+  padding: 0 5px;
+}
+
+.title {
+  display: block;
+  /*  Set same font-size and line height  */
+  font-size: 16px;
+  line-height: 16px;
+
+  transition: transform 0.4s ease;
+}
+
+.link-title1 {
+  transform-origin: right center;
+  text-shadow: 1px 1px 3px #2f2f2f;
+}
+
+.link-title2 {
+  transform-origin: left center;
+  transform: rotate(20deg);
+}
+
+/* Hover Action*/
+
+/* Move up two texts (20px = font-size) */
+.link:hover .link-container {
+  transform: translateY(-16px);
+}
+
+/* Rotate texts a little bit */
+.link:hover .link-title1 {
+  transform: rotate(18deg);
+}
+
+.link:hover .link-title2 {
+  transform: rotate(0);
+}
+
+.link-container.active {
+  transform: translateY(-16px);
+}
+
+.link-title1.active {
+  transform: rotate(18deg);
+}
+
+.link-title2.active {
+  transform: rotate(0);
+}
