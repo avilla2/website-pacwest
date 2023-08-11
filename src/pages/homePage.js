@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import GenerateHomeContent from '../components/utils/generateHomeContent';
 
 const useStyles = makeStyles((theme) => ({

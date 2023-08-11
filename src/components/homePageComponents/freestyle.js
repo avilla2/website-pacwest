@@ -1,7 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -20,7 +19,7 @@ export default function Freestyle({ content }) {
     const classes = useStyles();
     return (
         <div className={classes.root}>
-            <ReactMarkdown className={classes.body} rehypePlugins={[rehypeRaw]}>{content.Text}</ReactMarkdown>
+            <ReactMarkdown className={classes.body}>{content.Text}</ReactMarkdown>
         </div>
     );
 }

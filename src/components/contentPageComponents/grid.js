@@ -1,7 +1,7 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import ReactMarkdown from 'react-markdown'
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 const useStyles = makeStyles((theme) => ({
     root: {

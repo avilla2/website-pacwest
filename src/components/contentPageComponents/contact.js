@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import SendIcon from '@material-ui/icons/Send';
+import { makeStyles } from '@mui/styles';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import SendIcon from '@mui/icons-material/Send';
 
 const useStyles = makeStyles((theme) => ({
     root: {

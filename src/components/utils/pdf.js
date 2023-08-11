@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import IconButton from '@material-ui/core/IconButton';
-import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@mui/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import IconButton from '@mui/material/IconButton';
+import Fade from '@mui/material/Fade';
 import { Document, Page, pdfjs } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 

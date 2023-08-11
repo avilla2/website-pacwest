@@ -1,8 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import { makeStyles } from '@mui/styles';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { Link } from "react-router-dom";
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles((theme) => ({
     root: {

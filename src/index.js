@@ -5,6 +5,8 @@ import App from './App';
 import client from "./utils/apolloClient";
 import { ApolloProvider } from "@apollo/client";
 import reportWebVitals from './reportWebVitals';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/TextLayer.css';
 
 ReactDOM.render(
   <>

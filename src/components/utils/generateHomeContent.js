@@ -1,7 +1,7 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import renderComponent from './renderPageComponent';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const useStyles = makeStyles((theme) => ({
     root: {

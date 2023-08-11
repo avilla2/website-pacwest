@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import renderComponent from './renderPageComponent';
 
 const useStyles = makeStyles((theme) => ({

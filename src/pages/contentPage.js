@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Hidden } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import { Hidden } from '@mui/material';
 import GeneratePageContent from '../components/utils/generatePageContent';
 
 const useStyles = makeStyles((theme) => ({

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@mui/styles';
 import Icons from '../footerComponents/icons';
 import Text from '../footerComponents/text';
 import Image from '../footerComponents/image';

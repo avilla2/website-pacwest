@@ -1,9 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Fade from '@material-ui/core/Fade';
-import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import Fade from '@mui/material/Fade';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Grid from '@mui/material/Grid';
 import GetIcon from '../utils/getIcon';
 import ReactMarkdown from 'react-markdown';
 

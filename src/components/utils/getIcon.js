@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Icons from '@material-ui/icons';
+import * as Icons from '@mui/icons-material';
 import Ducklogo from '../../images/ducklogo';
 
 export default function GetIcon({ iconName, classes, fontSize }) {
