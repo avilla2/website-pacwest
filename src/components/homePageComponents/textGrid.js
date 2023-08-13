@@ -4,7 +4,7 @@ import Fade from '@mui/material/Fade'
 import useScrollTrigger from '@mui/material/useScrollTrigger'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import GetIcon from '../utils/getIcon'
+// import GetIcon from '../utils/getIcon'
 import ReactMarkdown from 'react-markdown'
 
 // COMPONENT NOT USED
@@ -84,7 +84,7 @@ export default function Mission ({ content }) {
                 {content.Entry.map((entry, index) => {
                   return (
                             <Grid key={index} item md={4} className={classes.core}>
-                                <GetIcon iconName={entry.Icon} classes={classes.iconColor} />
+
                                 <Fade in={trigger} {...(trigger ? { timeout: 1500 } : {})}>
                                     <Typography className={classes.heading} variant="subtitle1" gutterBottom>
                                         <ReactMarkdown className={classes.desc}>

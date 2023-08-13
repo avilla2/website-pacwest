@@ -1,9 +1,10 @@
 import React from 'react'
-import GetIcon from '../utils/getIcon'
+// import GetIcon from '../utils/getIcon'
 import IconButton from '@mui/material/IconButton'
 import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import MailLockOutlined from '@mui/icons-material/MailLockOutlined'
 
 const classes = {
   root: {
@@ -30,7 +31,7 @@ export default function Icons ({ content }) {
                 {content.Entry.map((item, key) => {
                   return (
                         <IconButton key={key} component={Link} href={item.Link}>
-                            <GetIcon iconName={item.Icon} sx={classes[item.Color]} fontSize="large" />
+                            <MailLockOutlined iconName={item.Icon} sx={classes[item.Color]} fontSize="large" />
                         </IconButton>
                   )
                 })}
