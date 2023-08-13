@@ -1,73 +1,58 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import React from 'react'
+import Box from '@mui/material/Box'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import ReactMarkdown from 'react-markdown'
 
 const styles = {
   base: (theme) => ({
+    overflow: 'hidden',
     [theme.breakpoints.down('xl')]: {
-      position: "relative",
-    },
+      position: 'relative'
+    }
   }),
   video: {
-    width: "100%",
+    width: '100%'
   },
-  overlay: {
-    position: "absolute",
-    bottom: "5%",
-    left: "5%",
-    textAlign: "left",
-    fontFamily: '"Poppins", sans-serif',
+  videoMobile: {
+    height: '80vh',
+    width: 'auto'
   },
-  ends: (theme) =>  ({
+  overlay: (theme) => ({
+    position: 'absolute',
+    bottom: '0%',
+    left: '5%',
+    textAlign: 'left',
     fontFamily: '"Poppins", sans-serif',
-    color: "white",
-    textShadow: "3px 3px 20px #2f2f2f",
+    color: 'white',
+    textShadow: '3px 3px 20px #2f2f2f',
     [theme.breakpoints.up('md')]: {
-      fontSize: "275%",
+      fontSize: '275%'
     },
     [theme.breakpoints.between('sm', 'md')]: {
-      fontSize: "150%",
+      fontSize: '150%'
     },
     [theme.breakpoints.between('xs', 'sm')]: {
-      fontSize: "200%",
-    },
-  }),
-  middle: (theme) => ({
-    fontFamily: '"Poppins", sans-serif',
-    color: "#872",
-    textShadow: "2px 2px 7px #2f2f2f",
-    [theme.breakpoints.up('md')]: {
-      fontSize: "275%",
-    },
-    [theme.breakpoints.between('sm', 'md')]: {
-      fontSize: "150%",
-    },
-    [theme.breakpoints.between('xs', 'sm')]: {
-      fontSize: "200%",
-    },
+      fontSize: '125%'
+    }
   })
-};
+}
 
-export default function Intro({ content }) {
-  //let theme = createTheme();
-  const hidden = useMediaQuery(theme => theme.breakpoints.up('sm'));
+export default function Intro ({ content }) {
+  const hidden = useMediaQuery(theme => theme.breakpoints.up('sm'))
 
   return (
-    <Box sx={styles.base} component="div">
-      {hidden ? 
-        <video style={styles.video} loop autoPlay muted>
-          <source src={`${process.env.REACT_APP_BACKEND_URL}${content.Video.url}`} type="video/mp4" />
+    <Box sx={styles.base}>
+      {hidden
+        ? <video style={styles.video} loop autoPlay muted>
+          <source src={`${process.env.REACT_APP_BACKEND_URL}${content.Video.data.attributes.url}`} type="video/mp4" />
         </video>
-    
-      :
-        <img style={styles.root} src={`${process.env.REACT_APP_BACKEND_URL}${content.Image.url}`} alt="Founding Fathers" />
-      }                       
+        : <video style={styles.videoMobile} loop autoPlay muted>
+          <source src={`${process.env.REACT_APP_BACKEND_URL}${content.Video.data.attributes.url}`} type="video/mp4" />
+        </video>
+      }
       <Box sx={styles.overlay}>
-        <Typography sx={styles.ends} variant="h3" gutterBottom>{content.IntroText.Line1}</Typography>
-        <Typography sx={styles.middle} variant="h2" gutterBottom>{content.IntroText.Line2}</Typography>
-        <Typography sx={styles.ends} variant="h3">{content.IntroText.Line3}</Typography>
+        <ReactMarkdown>{content.IntroText}</ReactMarkdown>
       </Box>
     </Box>
-  );
+  )
 }

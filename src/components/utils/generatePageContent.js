@@ -1,26 +1,24 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
-import renderComponent from './renderPageComponent';
+import React from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import renderComponent from './renderPageComponent'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "100%",
-    },
-    title: {
-        fontFamily: "Inter, sans-serif",
-        letterSpacing: 4,
-        margin: "2% 10%",
-        color: theme.palette.primary.main,
-    },
-}));
+const classes = {
+  root: {
+    width: '100%'
+  },
+  title: (theme) => ({
+    letterSpacing: 4,
+    margin: '2% 10%',
+    color: theme.palette.primary.main
+  })
+}
 
-export default function GeneratePageContent(props) {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-            <h2 className={classes.title}>{props.content?.Title}</h2>
+export default function GeneratePageContent (props) {
+  return (
+        <Box sx={classes.root}>
+            <Typography component="h2" sx={classes.title}>{props.content?.Title}</Typography>
             {renderComponent(props.content)}
-        </div>
-    );
+        </Box>
+  )
 }

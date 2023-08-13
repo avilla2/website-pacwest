@@ -1,20 +1,19 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
+import React from 'react'
+import Box from '@mui/material/Box'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: "0px",
-    },
-    image: {
-        width: 200,
-    },
-}));
+const classes = {
+  root: {
+    margin: '0px'
+  },
+  image: {
+    width: 200
+  }
+}
 
-export default function Template({ content }) {
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
-            <img className={classes.image} src={`${process.env.REACT_APP_BACKEND_URL}${content.Image.url}`} alt={content.Image.name} />
-        </div>
-    );
+export default function Template ({ content }) {
+  return (
+        <Box sx={classes.root}>
+            <img style={classes.image} src={`${process.env.REACT_APP_BACKEND_URL}${content.Image.data.attributes.url}`} alt={content.Image.data.attributes.name} />
+        </Box>
+  )
 }

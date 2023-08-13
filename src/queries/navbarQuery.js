@@ -1,38 +1,52 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag'
 
 const NAVBAR_QUERY = gql`
 query Navbar {
   navbar {
-    Items {
-      __typename
-      ... on ComponentNavbarComponentsTextLink {
-        Title
-        Link
-        id
-      }
-      ... on ComponentNavbarComponentsImageLink {
-        id
-        Image {
-					url
-          width
-          name
+    data {
+      id
+      attributes {
+        Style
+        Items {
+          __typename
+          ... on ComponentNavbarComponentsTextLink {
+            Title
+            Link
+            id
+          }
+          ... on ComponentNavbarComponentsImageLink {
+            id
+            Image {
+              data {
+                attributes {
+                  url
+                  width
+                  name
+                }
+              }
+            }
+            Link
+            Width
+          }
         }
-        Link
-        Width
+        MobileConfig {
+          MobileIcon {
+            data {
+              attributes {
+                url
+                width
+                name
+              }
+            }
+          }
+          DrawerText
+          DrawerLink
+          IconLink
+        }
       }
-    }
-    MobileConfig {
-      MobileIcon {
-        url
-        name
-        width
-      }
-      DrawerText
-      DrawerLink
-      IconLink
     }
   }
 }
-`;
+`
 
-export default NAVBAR_QUERY;
+export default NAVBAR_QUERY

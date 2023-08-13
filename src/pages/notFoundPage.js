@@ -1,30 +1,30 @@
-import React, {useEffect} from 'react';
-import { makeStyles } from '@mui/styles';
-import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react'
+import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import { Link } from 'react-router-dom'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "100%",
-    },
-    returnButton: {
-        color: theme.palette.warning.main,
-        borderColor: theme.palette.warning.main,
-    },
-}));
+const classes = {
+  root: {
+    width: '100%'
+  },
+  returnButton: (theme) => ({
+    color: theme.palette.warning.main,
+    borderColor: theme.palette.warning.main
+  })
+}
 
-export default function ContentPage({ setPage }) {
-    const classes = useStyles();
-    useEffect(() => {
-        setPage("Beta Theta Pi");
-      });
-    return (
-        <div className={classes.root}>
-            <h1>Looks Like your Lost...</h1>
-            <h2>This Page is Not Available</h2>
-            <Button variant="outlined" size="large" component={Link} to="/" className={classes.returnButton}>
+export default function ContentPage ({ setPage }) {
+  useEffect(() => {
+    setPage('Not Found')
+  })
+  return (
+        <Box className={classes.root}>
+            <Typography component="h1">Looks Like your Lost...</Typography>
+            <Typography component="h2">This Page is Not Available</Typography>
+            <Button variant="outlined" size="large" component={Link} to="/" sx={classes.returnButton}>
                 Return Home
             </Button>
-        </div>
-    );
+        </Box>
+  )
 }

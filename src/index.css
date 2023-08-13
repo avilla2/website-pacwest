@@ -71,23 +71,12 @@ code {
   position: relative;
   padding: 0;
   height: 18px;
-
-  /*  Remove overflow to see how it works　:) */
   overflow: hidden;
 }
 
 .link-container {
   transition: transform 0.4s ease;
   padding: 0 5px;
-}
-
-.title {
-  display: block;
-  /*  Set same font-size and line height  */
-  font-size: 16px;
-  line-height: 16px;
-
-  transition: transform 0.4s ease;
 }
 
 .link-title1 {
@@ -127,3 +116,15 @@ code {
 .link-title2.active {
   transform: rotate(0);
 }
+
+.pdf-file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+.pdf-page > canvas {
+  max-width: 100% !important;
+  width: unset !important;
+  height: auto !important;
+  }

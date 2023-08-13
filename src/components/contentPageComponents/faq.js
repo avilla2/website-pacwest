@@ -1,51 +1,43 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React from 'react'
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import Typography from '@mui/material/Typography'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Box from '@mui/material/Box'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: "40px 0px",
-    },
-    accordion: {
-        margin: "0 10%"
-    },
-    heading: {
-        fontFamily: "Inter, sans-serif",
-    },
-    description: {
-        fontFamily: "Inter, sans-serif",
-    }
-}));
+const classes = {
+  root: {
+    margin: '40px 0px'
+  },
+  accordion: {
+    margin: '0 10%'
+  }
+}
 
-export default function Faq({ content }) {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-                <div className={classes.accordion}>
+export default function Faq ({ content }) {
+  return (
+        <Box sx={classes.root}>
+                <Box sx={classes.accordion}>
                     {content.Entry.map((entry, index) => {
-                        return (
+                      return (
                             <Accordion key={index}>
                                 <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id={`accordian-${content.id}-${index}`}
                                 >
-                                    <Typography className={classes.heading}>{entry.Title}</Typography>
+                                    <Typography>{entry.Title}</Typography>
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    <Typography className={classes.description}>
+                                    <Typography>
                                         {entry.Body}
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
-                        )
+                      )
                     })}
-                </div>
-        </div>
-    );
+                </Box>
+        </Box>
+  )
 }

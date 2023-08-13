@@ -1,27 +1,25 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
+import React from 'react'
 import ReactMarkdown from 'react-markdown'
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        margin: "40px 10% 40px 10%",
-    },
-    image: {
-       width: "95%",
-    },
-    caption: {
-        fontFamily: "Inter, sans-serif",
-        fontSize: "18px",
-        fontWeight: "400",
-        lineHeight: "28px",
-    }
-}));
+const classes = {
+  root: {
+    margin: '40px 10% 40px 10%'
+  },
+  image: {
+    width: '95%'
+  },
+  caption: {
+    fontSize: '18px',
+    fontWeight: '400',
+    lineHeight: '28px'
+  }
+}
 
-export default function PictureGrid({ content }) {
-    const classes = useStyles();
-    return (
-        <div className={classes.root}>
+export default function PictureGrid ({ content }) {
+  return (
+        <Box sx={classes.root}>
             <Grid
                     container
                     direction="row"
@@ -30,14 +28,20 @@ export default function PictureGrid({ content }) {
                     spacing={3}
                 >
                     {content.Entry.map((entry, index) => {
-                        return (
+                      return (
                             <Grid xs={6} sm={4} md={3} item key={index}>
-                                <img className={classes.image} src={`${process.env.REACT_APP_BACKEND_URL}${entry.Picture.url}`} alt={entry.Picture.id} />
-                                <ReactMarkdown className={classes.caption}>{entry.Caption}</ReactMarkdown>
+                                <img
+                                    style={classes.image}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}${entry.Picture.url}`}
+                                    alt={entry.Picture.id}
+                                />
+                                <Box sx={classes.caption}>
+                                    <ReactMarkdown>{entry.Caption}</ReactMarkdown>
+                                </Box>
                             </Grid>
-                        )
+                      )
                     })}
             </Grid>
-        </div>
-    );
+        </Box>
+  )
 }

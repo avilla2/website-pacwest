@@ -1,29 +1,26 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
-import renderComponent from './renderPageComponent';
-import Typography from '@mui/material/Typography';
+import React from 'react'
+import renderComponent from './renderPageComponent'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "100%",
-    },
-    head: {
-        fontFamily: '"Poppins", "sans-serif"',
-        margin: '5% 0% 2% 0%'
-    },
-}));
+const classes = {
+  root: {
+    width: '100%'
+  },
+  head: {
+    margin: '5% 0% 2% 0%'
+  }
+}
 
-export default function GeneratePageContent(props) {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
+export default function GeneratePageContent (props) {
+  return (
+        <Box sx={classes.root}>
             {
-                props.content.__typename !== 'ComponentHomePageComponentsIntro' ? 
-                    <Typography className={classes.head} variant="h2" gutterBottom> {props?.content?.Title}</Typography> 
-                : <></> 
+                props.content.__typename !== 'ComponentHomePageComponentsIntro'
+                  ? <Typography sx={classes.head} variant="h2" gutterBottom> {props?.content?.Title}</Typography>
+                  : <></>
             }
             {renderComponent(props.content)}
-        </div>
-    );
+        </Box>
+  )
 }

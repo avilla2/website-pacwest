@@ -1,60 +1,70 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
-import PDF from '../utils/pdf';
+import React from 'react'
+import Box from '@mui/material/Box'
+import PDF from '../utils/pdf'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import ReactMarkdown from 'react-markdown'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
+const classes = {
+  caption: {
+    fontSize: '1.5rem',
+    textAlign: 'center'
+  }
+}
 
-    },
-    btnmenu: {
-        color: theme.palette.warning.main,
-        borderColor: theme.palette.warning.main + "!important",
-        margin: "10px 10px 0px",
-    },
-    buttonRoot: {
-        display: "inline",
-    },
-    links: {
-        display: "block",
-    },
-    head: {
-        fontFamily: '"Poppins", "sans-serif"',
-    },
-}));
+const Video = ({ configs }) => {
+  const mobile = useMediaQuery(theme => theme.breakpoints.down('md'))
+  return (
+        <video
+            style={{ width: mobile ? '100%' : `${configs.Width}%` }}
+            loop={configs.Loop}
+            autoPlay={configs.Autoplay}
+            controls={configs.Controls}
+            muted={configs.Autoplay || configs.Muted}
+        >
+            <source
+                src={`${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}`}
+                type={configs.File.data.attributes.mime}
+            />
+        </video>
+  )
+}
 
-export default function Media({ content }) {
-    const classes = useStyles();
+const Image = ({ configs }) => {
+  const mobile = useMediaQuery(theme => theme.breakpoints.down('md'))
+  return (
+        <img
+            src={`${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}`}
+            alt={configs.alternativeText}
+            style={{ width: mobile ? '100%' : `${configs.Width}%` }}
+        />
 
-    const isExternal = (text) => {
-        if (text.charAt(0) === '/') {
-            return false;
-        } else {
-            return true;
-        }
-    }
+  )
+}
 
-    return (
-        <div className={classes.root}>
-                <div className={classes.links}>
-                    <ButtonGroup
-                        color="inherit"
-                        aria-label=" primary button group"
-                        size="large"
-                        classes={{root: classes.buttonRoot}}
-                    >
-                        {content.Buttons.map((entry, index) => {
-                            return (
-                                <Button key={index} component={isExternal(entry.Link) ? "a" : Link} href={entry.Link} to={entry.Link} className={classes.btnmenu}>
-                                    {entry.Text}
-                                </Button>
-                            )
-                        })}
-                    </ButtonGroup>
-                </div>
-                <PDF src={content.PDF.File.url} />
-        </div>
-    );
+const renderComponent = (object) => {
+  switch (object.__typename) {
+    case 'ComponentAssetComponentsPdf':
+      return <PDF src={object.File.data.attributes.url} />
+    case 'ComponentAssetComponentsVideo':
+      return <Video configs={object} />
+    case 'ComponentAssetComponentsImage':
+      return <Image configs={object} />
+    default:
+      return <h2>Error: Asset Not Found</h2>
+  }
+}
+
+export default function Media ({ content }) {
+  return (
+        <Box>
+            { content.asset.data &&
+                renderComponent(content.asset.data.attributes.Content[0])
+            }
+            { content.asset.data &&
+                <Box sx={classes.caption}>
+                    <ReactMarkdown>{content.asset.data.attributes.Caption}</ReactMarkdown>
+                </Box>
+            }
+        </Box>
+  )
 }

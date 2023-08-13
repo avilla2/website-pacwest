@@ -1,10 +1,9 @@
-import React from 'react';
-import * as Icons from '@mui/icons-material';
-import Ducklogo from '../../images/ducklogo';
+import React from 'react'
+import * as Icons from '@mui/icons-material'
 
-export default function GetIcon({ iconName, classes, fontSize }) {
-    let DynamicIcon = iconName === 'Oregon' ? Ducklogo : Icons[iconName];
-    return(
-        <DynamicIcon className={classes} fontSize={fontSize} />
-      );
+export default function GetIcon ({ iconName, sx, fontSize }) {
+  const DynamicIcon = Icons[iconName]
+  return (
+        <DynamicIcon sx={sx} fontSize={fontSize} />
+  )
 }
