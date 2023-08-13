@@ -8,9 +8,10 @@ const classes = {
     width: '100%'
   },
   title: (theme) => ({
-    letterSpacing: 4,
-    margin: '2% 10%',
-    color: theme.palette.primary.main
+    letterSpacing: 1,
+    margin: '2% 10% 1% 10%',
+    fontSize: '1.5rem',
+    color: theme.palette.secondary.main
   })
 }
 

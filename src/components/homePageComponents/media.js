@@ -31,14 +31,30 @@ const Video = ({ configs }) => {
 
 const Image = ({ configs }) => {
   const mobile = useMediaQuery(theme => theme.breakpoints.down('md'))
-  return (
-        <img
-            src={`${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}`}
-            alt={configs.alternativeText}
-            style={{ width: mobile ? '100%' : `${configs.Width}%` }}
-        />
+  const height = configs.Height === 0 ? 'auto' : `${configs.Height}vh`
+  if (configs.Style === 'Parallax') {
+    return (
+        <div
+          style={{
+            backgroundImage: `url("${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}")`,
+            minHeight: height,
+            backgroundAttachment: 'fixed',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover'
+          }}>
+        </div>
+    )
+  } else {
+    return (
+            <img
+                src={`${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}`}
+                alt={configs.alternativeText}
+                style={{ width: mobile ? '100%' : `${configs.Width}%`, height }}
+            />
 
-  )
+    )
+  }
 }
 
 const renderComponent = (object) => {

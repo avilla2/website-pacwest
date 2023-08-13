@@ -79,6 +79,7 @@ query Content {
                     ... on ComponentAssetComponentsImage {
                       Style
                       Width
+                      Height
                       File {
                         data {
                           attributes {

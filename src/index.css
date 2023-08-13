@@ -40,7 +40,7 @@ code {
 #loadingframe{
   transform-origin: center;
   animation-name: spin;
-  animation-duration: 2s;
+  animation-duration: 15s;
   animation-iteration-count: infinite;
 }
 
@@ -48,7 +48,7 @@ code {
   position: relative;
 }
 
-#betalogo {
+#backwardslogo {
   width: 250px;
   height: 250px;
   position: absolute;

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import GeneratePageContent from '../components/utils/generatePageContent'
 
+const titleHeight = '145px'
 const classes = {
   root: {
     width: '100%',
@@ -13,24 +14,22 @@ const classes = {
   base: (theme) => ({
     backgroundColor: theme.palette.primary.main,
     width: '100%',
-    height: '15vh',
-    minHeight: '150px',
-    maxHeight: '250px',
+    height: titleHeight,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
     position: 'fixed',
     zIndex: -2
   }),
   title: {
-    position: 'absolute',
     color: 'white',
     fontSize: '1.5rem',
-    bottom: 30,
-    left: 0,
-    right: 0
+    marginBottom: '20px'
   },
   page: (theme) => ({
     marginTop: '5%',
     [theme.breakpoints.up('md')]: {
-      marginTop: '130px',
+      marginTop: titleHeight,
       backgroundColor: 'white',
       paddingTop: '1px'
     }

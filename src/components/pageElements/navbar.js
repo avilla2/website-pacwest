@@ -81,7 +81,7 @@ const classes = {
 
 export default function Navbar ({ page, content, mobileData, style }) {
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
-  const trigger = useScrollTrigger({ disableHysteresis: true })
+  const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 65 })
   const [isOpen, setIsOpen] = useState(false)
   const [active, setActive] = useState(-1)
   const toggleDrawer = (open) => (event) => {

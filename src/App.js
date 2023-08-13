@@ -38,8 +38,8 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
-      '"Poppins"',
-      'sans-serif',
+      '"Montserrat"',
+      '"sans-serif"',
       '"Segoe UI"',
       'Roboto',
       '"Apple Color Emoji"',
@@ -90,10 +90,10 @@ const RegularRoutes = ({ page, setPage }) => {
 }
 
 export default function App () {
-  const [page, setPage] = useState('Beta Theta Pi')
+  const [page, setPage] = useState('Home')
 
   useEffect(() => {
-    document.title = `${page} | Beta Theta Pi Oregon`
+    document.title = `${page} | PacWest Pressure Washing`
   }, [page])
   return (
     <div className="App">
