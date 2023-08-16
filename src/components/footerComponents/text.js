@@ -3,14 +3,15 @@ import Box from '@mui/material/Box'
 import ReactMarkdown from 'react-markdown'
 
 const classes = {
-  root: {
+  root: (theme) => ({
     margin: '0px',
     padding: '0 5%',
     fontSize: '.95rem',
     fontWeight: '500',
     lineHeight: '24px',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+    fontFamily: theme.typography.fontFamily
+  })
 }
 
 export default function Paragraph ({ content }) {

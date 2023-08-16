@@ -3,12 +3,13 @@ import Box from '@mui/material/Box'
 import PDF from '../utils/pdf'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import ReactMarkdown from 'react-markdown'
+import { Parallax } from 'react-parallax'
 
 const classes = {
-  caption: {
-    fontSize: '1.5rem',
-    textAlign: 'center'
-  }
+  caption: (theme) => ({
+    fontFamily: theme.typography.fontFamily,
+    margin: 'auto 6%'
+  })
 }
 
 const Video = ({ configs }) => {
@@ -34,16 +35,9 @@ const Image = ({ configs }) => {
   const height = configs.Height === 0 ? 'auto' : `${configs.Height}vh`
   if (configs.Style === 'Parallax') {
     return (
-        <div
-          style={{
-            backgroundImage: `url("${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}")`,
-            minHeight: height,
-            backgroundAttachment: 'fixed',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-          }}>
-        </div>
+      <Parallax bgImage={`${process.env.REACT_APP_BACKEND_URL}${configs.File.data.attributes.url}`} bgImageAlt={configs.alternativeText} strength={200}>
+        <div style={{ height }}></div>
+      </Parallax>
     )
   } else {
     return (
@@ -52,7 +46,6 @@ const Image = ({ configs }) => {
                 alt={configs.alternativeText}
                 style={{ width: mobile ? '100%' : `${configs.Width}%`, height }}
             />
-
     )
   }
 }

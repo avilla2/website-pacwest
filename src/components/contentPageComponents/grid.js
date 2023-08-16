@@ -2,6 +2,7 @@ import React from 'react'
 import ReactMarkdown from 'react-markdown'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 const classes = {
   root: {
@@ -29,14 +30,16 @@ export default function PictureGrid ({ content }) {
                 >
                     {content.Entry.map((entry, index) => {
                       return (
-                            <Grid xs={6} sm={4} md={3} item key={index}>
+                            <Grid xs={12} sm={6} md={4} item key={index}>
                                 <img
                                     style={classes.image}
-                                    src={`${process.env.REACT_APP_BACKEND_URL}${entry.Picture.url}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}${entry.Picture.data.attributes.url}`}
                                     alt={entry.Picture.id}
                                 />
                                 <Box sx={classes.caption}>
-                                    <ReactMarkdown>{entry.Caption}</ReactMarkdown>
+                                    <Typography component="div">
+                                        <ReactMarkdown>{entry.Caption}</ReactMarkdown>
+                                    </Typography>
                                 </Box>
                             </Grid>
                       )

@@ -7,9 +7,13 @@ const classes = {
   root: {
     width: '100%'
   },
-  head: {
-    margin: '5% 0% 2% 0%'
-  }
+  head: (theme) => ({
+    margin: '5% 2% 2% 2%',
+    fontSize: '2.5rem',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '1.7rem'
+    }
+  })
 }
 
 export default function GeneratePageContent (props) {

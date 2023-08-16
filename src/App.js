@@ -4,14 +4,11 @@ import Navbar from './components/pageElements/navbar'
 import Footer from './components/pageElements/footer'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material'
-import CONTENT_PAGE_QUERY from './queries/contentPageQuery'
-import HOME_PAGE_QUERY from './queries/homePageQuery'
+import APP_QUERY from './queries/appQuery'
 import Query from './components/utils/query'
 import ContentPage from './pages/contentPage'
 import HomePage from './pages/homePage'
 import NotFoundPage from './pages/notFoundPage'
-import NAVBAR_QUERY from './queries/navbarQuery'
-import FOOTER_QUERY from './queries/footerQuery'
 
 const theme = createTheme({
   palette: {
@@ -49,42 +46,19 @@ const theme = createTheme({
   }
 })
 
-const RegularRoutes = ({ page, setPage }) => {
+const RegularRoutes = ({ page, setPage, footer, navbar, homepage, contentPages }) => {
+  console.log(homepage)
   return (
     <>
-      <Query query={NAVBAR_QUERY}>
-            {({ data: { navbar } }) => {
-              return (
-                <Navbar content={navbar.data.attributes.Items} mobileData={navbar.data.attributes.MobileConfig} style={navbar.data.attributes.Style} page={page}/>
-              )
-            }}
-          </Query>
-          <Query query={CONTENT_PAGE_QUERY}>
-            {({ data: { contentPages } }) => {
-              return (
-                  <Query query={HOME_PAGE_QUERY}>
-                    {({ data: { homepage } }) => {
-                      return (
-                        <Routes>
-                          {contentPages.data.map((item, key) => (
-                            <Route key={key} path={item.attributes.Link} element={<ContentPage setPage={setPage} name={item.attributes.Name} content={item.attributes.Content}/> }/>
-                          ))}
-                          <Route path="/" exact element={<HomePage setPage={setPage} pageName={homepage.data.attributes.PageName} content={homepage.data.attributes.Content}/>} />
-                          <Route element={<NotFoundPage setPage={setPage} />} />
-                        </Routes>
-                      )
-                    }}
-                  </Query>
-              )
-            }}
-          </Query>
-          <Query query={FOOTER_QUERY}>
-            {({ data: { footer } }) => {
-              return (
-                <Footer content={footer.data.attributes.Content} />
-              )
-            }}
-          </Query>
+      <Navbar content={navbar.data.attributes.Items} mobileData={navbar.data.attributes.MobileConfig} style={navbar.data.attributes.Style} page={page}/>
+        <Routes>
+          {contentPages.data.map((item, key) => (
+            <Route key={key} path={item.attributes.Link} element={<ContentPage setPage={setPage} name={item.attributes.Name} content={item.attributes.Content}/> }/>
+          ))}
+          <Route path="/" exact element={<HomePage setPage={setPage} pageName={homepage.data.attributes.PageName} content={homepage.data.attributes.Content}/>} />
+          <Route element={<NotFoundPage setPage={setPage} />} />
+        </Routes>
+      <Footer content={footer.data.attributes.Content} />
     </>
   )
 }
@@ -98,9 +72,15 @@ export default function App () {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Router>
-          <RegularRoutes setPage={setPage} page={page} />
-        </Router>
+        <Query query={APP_QUERY}>
+          {({ data }) => {
+            return (
+              <Router>
+                <RegularRoutes setPage={setPage} page={page} {...data} />
+              </Router>
+            )
+          }}
+        </Query>
       </ThemeProvider>
     </div>
   )

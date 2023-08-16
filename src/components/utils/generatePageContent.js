@@ -10,7 +10,7 @@ const classes = {
   title: (theme) => ({
     letterSpacing: 1,
     margin: '2% 10% 1% 10%',
-    fontSize: '1.5rem',
+    fontSize: '1.2rem',
     color: theme.palette.secondary.main
   })
 }

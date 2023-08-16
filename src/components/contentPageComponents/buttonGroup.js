@@ -6,7 +6,7 @@ import Box from '@mui/material/Box'
 
 const classes = {
   root: {
-    margin: '40px 10% 40px 10%'
+    margin: '-1% 10% 3% 10%'
   },
   btnmenu: (theme) => ({
     color: theme.palette.warning.main,
@@ -23,7 +23,7 @@ const classes = {
   }
 }
 
-export default function Template ({ content }) {
+export default function Buttons ({ content }) {
   const isExternal = (text) => {
     if (text.charAt(0) === '/') {
       return false

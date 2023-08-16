@@ -2,15 +2,12 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const classes = {
-  root: (theme) => ({
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper
-  }),
+  root: {
+    margin: 'auto 3% 5% 3%'
+  },
   imageList: (theme) => ({
     width: '100%',
     flexWrap: 'nowrap',
@@ -30,12 +27,13 @@ const classes = {
 }
 
 export default function Gallery ({ content }) {
+  const mobile = useMediaQuery(theme => theme.breakpoints.down('sm'))
   return (
     <Box sx={classes.root}>
-        <ImageList sx={classes.imageList} variant="masonry" cols={3} gap={8}>
-            {content.Pictures.map((item, index) => (
+        <ImageList sx={classes.imageList} variant="masonry" cols={mobile ? 1 : 3} gap={8}>
+            {content.Pictures.data.map((item, index) => (
             <ImageListItem key={index}>
-                <img src={`${process.env.REACT_APP_BACKEND_URL}${item.data.attributes.url}`} alt={item.id} />
+                <img src={`${process.env.REACT_APP_BACKEND_URL}${item.attributes.url}`} alt={item.alternativeText} />
             </ImageListItem>
             ))}
         </ImageList>

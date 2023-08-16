@@ -21,7 +21,11 @@ const classes = {
   }),
   success: (theme) => ({
     color: theme.palette.success.main
-  })
+  }),
+  submit: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
 }
 
 export default function Contact ({ content }) {
@@ -190,8 +194,8 @@ export default function Contact ({ content }) {
                             rows={8}
                         />
                     </Grid>
-                    <Grid item size="large">
-                        <Button disabled={loading} endIcon={<SendIcon />} sx={classes.submit} variant="outlined" color="primary" onClick={sendEmail}>Submit</Button>
+                    <Grid item xs={12} sx={classes.submit}>
+                        <Button disabled={loading} endIcon={<SendIcon />} variant="outlined" color="primary" onClick={sendEmail}>Submit</Button>
                     </Grid>
                 </Grid>
                 {status === 'success'

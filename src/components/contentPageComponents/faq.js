@@ -12,7 +12,11 @@ const classes = {
   },
   accordion: {
     margin: '0 10%'
-  }
+  },
+  borders: (theme) => ({
+    borderStyle: 'solid',
+    borderColor: theme.palette.secondary.main
+  })
 }
 
 export default function Faq ({ content }) {
@@ -21,7 +25,7 @@ export default function Faq ({ content }) {
                 <Box sx={classes.accordion}>
                     {content.Entry.map((entry, index) => {
                       return (
-                            <Accordion key={index}>
+                            <Accordion key={index} sx={classes.borders}>
                                 <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"

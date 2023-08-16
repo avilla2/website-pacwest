@@ -7183,6 +7183,7 @@ __metadata:
     react: 17.0.2
     react-dom: ^17.0.2
     react-markdown: ^8.0.7
+    react-parallax: ^3.5.1
     react-pdf: ^7.1.3
     react-router-dom: ^6.14.2
     react-scripts: ^5.0.1
@@ -12058,6 +12059,16 @@ __metadata:
     "@types/react": ">=16"
     react: ">=16"
   checksum: 0f3e570975134a3382c3fe5189e04e742ae154941463bdfaab2293319da1f1585cb9b75b6f07d99f514c4d728d69cc1af3c96ab37df90003b3bcc210dd0001ba
+  languageName: node
+  linkType: hard
+
+"react-parallax@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "react-parallax@npm:3.5.1"
+  peerDependencies:
+    react: 16.x.x || 17.x.x || 18.x.x
+    react-dom: 16.x.x || 17.x.x || 18.x.x
+  checksum: 0b709aa5507d3e294b297d19e79573ab4848db30d7e3d1dcc97c9df19a9df71308129e45caa3d2f9bb3e7181ec2b908112ad6a881ca11257b07e4d47693b30a6
   languageName: node
   linkType: hard
 

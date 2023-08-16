@@ -5,7 +5,7 @@ export default function Loading () {
   return (
         <div id="loading">
             <div id="loadingframe">
-                <img src={logo} alt="logo" id="logo" />
+                <img src={logo} width={200} alt="logo" id="logo" />
             </div>
         </div>
   )
