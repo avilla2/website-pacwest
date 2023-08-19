@@ -65,7 +65,7 @@ const GenerateMedia = ({ data }) => {
     const mime = getMime(attributes.mime)
     if (mime === 'video') {
       return (
-        <video style={hidden ? styles.video : styles.videoMobile} loop autoPlay muted>
+        <video style={hidden ? styles.video : styles.videoMobile} loop autoPlay muted playsInline>
           <source
             src={`${process.env.REACT_APP_BACKEND_URL}${attributes.url}`}
             type={attributes.mime}
