@@ -107,8 +107,7 @@ export default function Contact ({ content }) {
             setLoading(false)
           }
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(() => {
           setStatus('failure')
           setLoading(false)
         })
