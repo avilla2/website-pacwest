@@ -2,6 +2,7 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import renderComponent from './renderPageComponent'
+import calculatePadding from './calculatePadding'
 
 const classes = {
   root: {
@@ -9,17 +10,32 @@ const classes = {
   },
   title: (theme) => ({
     letterSpacing: 1,
-    margin: '2% 10% 1% 10%',
-    fontSize: '1.2rem',
-    color: theme.palette.secondary.main
+    paddingTop: theme.spacing(2),
+    fontSize: '1.6rem',
+    [theme.breakpoints.down('md')]: {
+      fontSize: '1.2rem'
+    }
   })
 }
 
-export default function GeneratePageContent (props) {
+const fullHeightComponents = ['ComponentHomePageComponentsIntro']
+
+export default function GeneratePageContent ({ content, lastComponent }) {
+  const padding = calculatePadding(lastComponent, fullHeightComponents, content.__typename)
   return (
-        <Box sx={classes.root}>
-            <Typography component="h2" sx={classes.title}>{props.content?.Title}</Typography>
-            {renderComponent(props.content)}
+        <Box
+            sx={classes.root}
+            style={{
+              color: content?.Style?.TextColor ? content.Style.TextColor : null,
+              backgroundColor: content?.Style?.BackgroundColor ? content.Style.BackgroundColor : null,
+              padding
+            }}
+        >
+            {
+                !fullHeightComponents.includes(content.__typename) &&
+                <Typography sx={classes.title} variant="h2"> {content?.Title}</Typography>
+            }
+            {renderComponent(content)}
         </Box>
   )
 }

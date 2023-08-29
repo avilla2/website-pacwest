@@ -4,11 +4,14 @@ import PDF from '../utils/pdf'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import ReactMarkdown from 'react-markdown'
 import { Parallax } from 'react-parallax'
+import AnimationProvider from '../utils/animationProvider'
 
 const classes = {
   caption: (theme) => ({
     fontFamily: theme.typography.fontFamily,
-    margin: 'auto 6%'
+    marginLeft: '5%',
+    marginRight: '5%',
+    marginTop: theme.spacing(3)
   })
 }
 
@@ -70,9 +73,11 @@ export default function Media ({ content }) {
                 renderComponent(content.asset.data.attributes.Content[0])
             }
             { content.asset.data &&
+              <AnimationProvider animation={content?.Style?.Animation} direction="down">
                 <Box sx={classes.caption}>
                     <ReactMarkdown>{content.asset.data.attributes.Caption}</ReactMarkdown>
                 </Box>
+              </AnimationProvider>
             }
         </Box>
   )

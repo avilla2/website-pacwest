@@ -1,52 +1,75 @@
 import React from 'react'
-import ButtonGroup from '@mui/material/ButtonGroup'
-import { Link } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import isExternal from '../utils/isExternalLink'
+import { Link } from 'react-router-dom'
+import { useTheme } from '@mui/material/styles'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import AnimationProvider from '../utils/animationProvider'
 
 const classes = {
   root: {
-    margin: '-1% 10% 3% 10%'
+    margin: 'auto 5%'
   },
-  btnmenu: (theme) => ({
-    color: theme.palette.warning.main,
-    borderColor: `${theme.palette.warning.main}!important`,
-    margin: '10px 10px 0px'
-  }),
-  buttonRoot: {
-    '& .MuiButtonGroup-root': {
-      display: 'inline'
-    }
-  },
-  links: {
-    display: 'block'
+  buttonGroup: {
+    display: 'flex',
+    flexWrap: 'wrap'
   }
 }
-
 export default function Buttons ({ content }) {
-  const isExternal = (text) => {
-    if (text.charAt(0) === '/') {
-      return false
+  const theme = useTheme()
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const getButtonColor = (color) => {
+    const trueColor = color || theme.palette.primary.main
+    switch (content.ButtonStyle) {
+      case 'contained':
+        return { backgroundColor: trueColor }
+      case 'text':
+        return { color: trueColor }
+      default:
+        return { borderColor: trueColor }
     }
-    return true
+  }
+
+  const getButtonSpacing = () => {
+    switch (content.ButtonArrangement) {
+      case 'spaced_evenly':
+        return { justifyContent: 'space-evenly' }
+      default:
+        return { justifyContent: 'center', gap: theme.spacing(2) }
+    }
+  }
+
+  const ButtonGroupRoot = ({ children }) => {
+    const mobileXS = useMediaQuery('(min-width:500px)')
+    if (content.ButtonArrangement === 'together' || content.ButtonArrangement === null) {
+      return <ButtonGroup orientation={mobileXS ? 'horizontal' : 'vertical'}>{children}</ButtonGroup>
+    } else {
+      return <Box sx={classes.buttonGroup} style={getButtonSpacing()}>{children}</Box>
+    }
   }
 
   return (
-    <Box sx={classes.root}>
-      <Box sx={classes.links}>
-        <ButtonGroup
-          color="inherit"
-          aria-label=" primary button group"
-          size="large"
-          sx={classes.buttonRoot}
-        >
-          {content.Entry.map((entry, index) => (
-            <Button key={index} component={isExternal(entry.Link) ? 'a' : Link} href={entry.Link} to={entry.Link} sx={classes.btnmenu}>
-              {entry.Text}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </Box>
-    </Box>
+    <AnimationProvider animation={content?.Style?.Animation} direction="down">
+        <Box sx={classes.root}>
+            <ButtonGroupRoot>
+            {content.Entry.map((entry, index) => (
+                <Button
+                    key={index}
+                    variant={content?.ButtonStyle ? content.ButtonStyle : 'outlined'}
+                    size={mobile ? 'regular' : 'large'}
+                    component={isExternal(entry.Link) ? 'a' : Link}
+                    href={entry.Link}
+                    to={entry.Link}
+                    sx={getButtonColor(entry.ButtonColor)}
+                >
+                {entry.Text}
+                </Button>
+            ))}
+            </ButtonGroupRoot>
+        </Box>
+    </AnimationProvider>
   )
 }

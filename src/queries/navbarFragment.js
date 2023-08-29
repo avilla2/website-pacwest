@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 const NAVBAR_FRAGMENT = gql`
 fragment NavbarFragment on Navbar {
   Style
+  Appearance
   Items {
     __typename
     ... on ComponentNavbarComponentsTextLink {

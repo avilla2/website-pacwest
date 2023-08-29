@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 import FOOTER_FRAGMENT from './footerFragment'
 import NAVBAR_FRAGMENT from './navbarFragment'
 import PAGE_CONTENT_FRAGMENT from './pageContentFragment'
+import SITESETTINGS_FRAGMENT from './siteSettingsFragment'
 
 const APP_QUERY = gql`
 query App {
@@ -43,10 +44,19 @@ query App {
       }
     }
   }
+  siteSettings {
+    data {
+      id
+      attributes {
+        ...SiteSettingsFragment
+      }
+    }
+  }
 }
 ${NAVBAR_FRAGMENT}
 ${FOOTER_FRAGMENT}
 ${PAGE_CONTENT_FRAGMENT}
+${SITESETTINGS_FRAGMENT}
 `
 
 export default APP_QUERY

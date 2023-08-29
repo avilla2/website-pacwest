@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import Box from '@mui/material/Box'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import GeneratePageContent from '../components/utils/generatePageContent'
@@ -24,35 +23,40 @@ const classes = {
   title: {
     color: 'white',
     fontSize: '1.5rem',
-    marginBottom: '20px'
+    marginBottom: '18px'
   },
   page: (theme) => ({
-    marginTop: '5%',
     [theme.breakpoints.up('md')]: {
       marginTop: titleHeight,
       backgroundColor: 'white',
-      paddingTop: '1px'
+      paddingTop: '0px'
     }
   })
 }
 
-export default function ContentPage ({ setPage, name, content }) {
+export default function ContentPage ({ setPage, setNavIndex, name, content, path }) {
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
+
   useEffect(() => {
     setPage(name)
+    setNavIndex(path)
   })
   return (
         <Box sx={classes.root}>
             {hidden &&
-                <Paper elevation={0} sx={classes.base} square>
+                <Box sx={classes.base}>
                     <Typography component="h1" sx={classes.title}>{name}</Typography>
-                </Paper>
+                </Box>
 
             }
                 <Box sx={classes.page}>
                     {content.map((item, index) => {
                       return (
-                            <GeneratePageContent key={index} content={item}/>
+                        <GeneratePageContent
+                          key={index}
+                          content={item}
+                          lastComponent={index === content.length - 1}
+                        />
                       )
                     })}
                 </Box>

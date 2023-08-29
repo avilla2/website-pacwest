@@ -9,15 +9,20 @@ const classes = {
   }
 }
 
-export default function ContentPage ({ setPage, content, pageName }) {
+export default function ContentPage ({ setPage, setNavIndex, path, content, pageName }) {
   useEffect(() => {
     setPage(pageName)
+    setNavIndex(path)
   })
   return (
         <Box sx={classes.root}>
             {content.map((item, index) => {
               return (
-                    <GenerateHomeContent key={index} content={item}/>
+                <GenerateHomeContent
+                    key={index}
+                    content={item}
+                    lastComponent={index === content.length - 1}
+                />
               )
             })}
         </Box>

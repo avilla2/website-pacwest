@@ -2,6 +2,7 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import ReactMarkdown from 'react-markdown'
+import AnimationProvider from '../utils/animationProvider'
 
 const styles = {
   base: {
@@ -9,11 +10,13 @@ const styles = {
     position: 'relative'
   },
   video: {
-    width: '100%'
+    width: '100%',
+    verticalAlign: 'bottom'
   },
   videoMobile: {
     height: '80vh',
-    width: 'auto'
+    width: 'auto',
+    verticalAlign: 'bottom'
   },
   overlay: (theme) => ({
     position: 'absolute',
@@ -24,16 +27,19 @@ const styles = {
     padding: '3%',
     boxSizing: 'border-box',
     fontFamily: theme.typography.fontFamily,
-    color: 'white',
+    color: 'inherit',
     textShadow: '3px 3px 20px #2f2f2f',
-    [theme.breakpoints.up('md')]: {
-      fontSize: '275%'
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '1.5rem'
+    },
+    [theme.breakpoints.between('md', 'lg')]: {
+      fontSize: '1.125rem'
     },
     [theme.breakpoints.between('sm', 'md')]: {
-      fontSize: '150%'
+      fontSize: '.85rem'
     },
     [theme.breakpoints.between('xs', 'sm')]: {
-      fontSize: '125%'
+      fontSize: '.75rem'
     }
   }),
   centered: {
@@ -107,9 +113,11 @@ export default function Intro ({ content }) {
   return (
     <Box sx={styles.base}>
       <GenerateMedia data={content.File.data} />
-      <Box sx={[styles.overlay, getIntroStyle(content.TextPosition)]}>
-        <ReactMarkdown>{content.IntroText}</ReactMarkdown>
-      </Box>
+      <AnimationProvider animation={content?.Style?.Animation}>
+        <Box sx={[styles.overlay, getIntroStyle(content.TextPosition)]}>
+          <ReactMarkdown>{content.IntroText}</ReactMarkdown>
+        </Box>
+      </AnimationProvider>
     </Box>
   )
 }

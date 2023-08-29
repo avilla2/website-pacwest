@@ -25,6 +25,7 @@ fragment FooterFragment on Footer {
         id
         Icon
         Link
+        Color
       }
       Space
     }

@@ -16,10 +16,11 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import Divider from '@mui/material/Divider'
 import { Link } from 'react-router-dom'
+import isExternal from '../utils/isExternalLink'
 
 const classes = {
-  toolbarRoot: {
-  },
+  root: {},
+  none: {},
   toolbarSpaced: {
     justifyContent: 'flex-start',
     margin: '0 2% 0 2%;',
@@ -79,24 +80,23 @@ const classes = {
   }
 }
 
-export default function Navbar ({ page, content, mobileData, style }) {
+export default function Navbar ({ page, navIndex, content, mobileData, style, appearance }) {
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
   const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 65 })
   const [isOpen, setIsOpen] = useState(false)
   const [active, setActive] = useState(-1)
+
+  React.useEffect(() => {
+    if (navIndex) {
+      setActive(navIndex)
+    }
+  })
+
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return
     }
     setIsOpen(open)
-  }
-
-  const isExternal = (text) => {
-    if (text.charAt(0) === '/') {
-      return false
-    } else {
-      return true
-    }
   }
 
   const NavButton = ({ title, link, external, id }) => {
@@ -137,11 +137,11 @@ export default function Navbar ({ page, content, mobileData, style }) {
             <ListItemText primaryTypographyProps={{ variant: 'h5' }} primary={drawerText} />
           </ListItem>
           <Divider variant="middle" sx={classes.divider} />
-          {links.map((item, key) => (
+          {links.map((item, index) => (
             item.__typename === 'ComponentNavbarComponentsTextLink'
-              ? <div key={key}>
-                <ListItem button onClick={() => setActive(key)} component={isExternal(item.Link) ? 'a' : Link} href={item.Link} to={item.Link}>
-                  <ListItemText sx={`${classes.title} ${active === key ? classes.hovered : ''}`} primary={item.Title} />
+              ? <div key={index}>
+                <ListItem button onClick={() => setActive(item.Link)} component={isExternal(item.Link) ? 'a' : Link} href={item.Link} to={item.Link}>
+                  <ListItemText sx={[classes.title, active === item.Link ? classes.hovered : classes.none]} primary={item.Title} />
                 </ListItem>
               </div>
               : null
@@ -166,13 +166,13 @@ export default function Navbar ({ page, content, mobileData, style }) {
     <Box sx={classes.root}>
       {/* Desktop Navbar */}
       {hidden
-        ? <AppBar position="fixed" elevation={!trigger ? 0 : 1} color={ !trigger ? 'transparent' : 'primary' } >
+        ? <AppBar position="fixed" elevation={!trigger ? 0 : 1} color={!trigger && appearance === 'fade_in' ? 'transparent' : 'primary' } >
           <Toolbar sx={pickStyle()}>
-            {content.map((item, key) => {
+            {content.map((item, index) => {
               return (
                 item.__typename === 'ComponentNavbarComponentsTextLink'
-                  ? <NavButton key={key} id={key} external={isExternal(item.Link)} title={item.Title} link={item.Link} />
-                  : <NavButtonIcon key={key} id={key} width={item.Width} link={item.Link} src={`${process.env.REACT_APP_BACKEND_URL}${item.Image.data.attributes.url}`} alt={item.Image.data.attributes.name} />
+                  ? <NavButton key={index} id={item.Link} external={isExternal(item.Link)} title={item.Title} link={item.Link} />
+                  : <NavButtonIcon key={index} id={item.Link} width={item.Width} link={item.Link} src={`${process.env.REACT_APP_BACKEND_URL}${item.Image.data.attributes.url}`} alt={item.Image.data.attributes.name} />
               )
             })}
           </Toolbar>
@@ -181,7 +181,7 @@ export default function Navbar ({ page, content, mobileData, style }) {
       {/* Mobile Navbar */}
         <AppBar position="fixed">
           <Toolbar sx={classes.mobileNav}>
-            <IconButton onClick={() => setActive(-1)} component={Link} to={mobileData.IconLink} edge="start">
+            <IconButton onClick={() => setActive('')} component={Link} to={mobileData.IconLink} edge="start">
               <img style={classes.mobileLogo} src={`${process.env.REACT_APP_BACKEND_URL}${mobileData.MobileIcon.data.attributes.url}`} alt="Logo"/>
             </IconButton>
             <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)}>

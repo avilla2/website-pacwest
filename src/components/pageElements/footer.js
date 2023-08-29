@@ -6,7 +6,7 @@ import GenerateFooterContent from '../utils/generateFooterContent'
 const classes = {
   root: {
     padding: '50px 20px',
-    marginTop: '50px'
+    zIndex: 10
   }
 }
 

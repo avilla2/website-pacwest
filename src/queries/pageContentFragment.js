@@ -1,6 +1,11 @@
 import gql from 'graphql-tag'
 
 const PAGE_CONTENT_FRAGMENT = gql`
+fragment StyleFragment on ComponentContentPageComponentsStyle {
+    BackgroundColor
+    Animation
+    TextColor
+}
 fragment Content on ContentPageContentDynamicZone {
     __typename
     ... on ComponentHomePageComponentsIntro {
@@ -15,12 +20,18 @@ fragment Content on ContentPageContentDynamicZone {
             }
         }
     }
+    Style {
+        ...StyleFragment
+    }
     IntroText
     TextPosition
     }
     ... on ComponentHomePageComponentsGallery {
     id
     Title
+    Style {
+      ...StyleFragment
+    }
     Pictures {
         data {
             attributes {
@@ -34,6 +45,9 @@ fragment Content on ContentPageContentDynamicZone {
     ... on ComponentHomePageComponentsMedia {
     id
     Title
+    Style {
+      ...StyleFragment
+    }
     asset {
         data {
         attributes {
@@ -58,12 +72,12 @@ fragment Content on ContentPageContentDynamicZone {
                 Width
                 Controls
                 File {
-                data {
-                    attributes {
-                    url
-                    width
+                    data {
+                        attributes {
+                            url
+                            width
+                        }
                     }
-                }
                 }
             }
             ... on ComponentAssetComponentsImage {
@@ -71,11 +85,11 @@ fragment Content on ContentPageContentDynamicZone {
                 Width
                 Height
                 File {
-                data {
-                    attributes {
-                    url
-                    width
-                    alternativeText
+                    data {
+                        attributes {
+                            url
+                            width
+                            alternativeText
                     }
                 }
                 }
@@ -86,28 +100,41 @@ fragment Content on ContentPageContentDynamicZone {
     }
     }
     ... on ComponentContentPageComponentsParagraph {
-    id
-    Title
-    Body
+        id
+        Title
+        Style {
+            ...StyleFragment
+        }
+        Body
     }
     ... on ComponentContentPageComponentsFaq {
-    id
-    Title
-    Entry {
-        Title
-        Body
         id
-    }
+        Title
+        Style {
+            ...StyleFragment
+        }
+        Entry {
+            Title
+            Body
+            id
+        }
     }
     ... on ComponentContentPageComponentsForm {
-    id
-    Title
-    bodyTitle
-    sendTo
+        id
+        Title
+        Style {
+            ...StyleFragment
+        }
+        bodyTitle
+        sendTo
+        sendFrom
     }
     ... on ComponentContentPageComponentsGrid {
         id
         Title
+        Style {
+            ...StyleFragment
+        }
         Entry {
             id
             Picture {
@@ -122,10 +149,16 @@ fragment Content on ContentPageContentDynamicZone {
     }
     ... on ComponentContentPageComponentsButtons {
         id
+        Style {
+            ...StyleFragment
+        }
         Entry {
             Link
             Text
+            ButtonColor
         }
+        ButtonStyle
+        ButtonArrangement
     }
 }
 `

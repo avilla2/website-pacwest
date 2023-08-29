@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid'
 import SendIcon from '@mui/icons-material/Send'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import AnimationProvider from '../utils/animationProvider'
 
 const classes = {
   root: {
@@ -17,9 +18,11 @@ const classes = {
     margin: '0px 5px 20px 5px'
   },
   error: (theme) => ({
+    marginTop: 3,
     color: theme.palette.warning.main
   }),
   success: (theme) => ({
+    marginTop: 3,
     color: theme.palette.success.main
   }),
   submit: {
@@ -76,52 +79,36 @@ export default function Contact ({ content }) {
 
     if (regex.test(data.email)) {
       setLoading(true)
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/emails/create`, {
-        method: 'POST', // or 'PUT'
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/emails`, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'content-type': 'application/json',
+          // eslint-disable-next-line quote-props
+          'Authorization': `Bearer ${process.env.REACT_APP_API_TOKEN}`
         },
         body: JSON.stringify({
-          First: data.first,
-          Last: data.last,
-          Email: data.email,
-          Body: data.body,
-          formName: content.Title
+          data: {
+            SendTo: content.sendTo,
+            SendFrom: content.sendFrom,
+            Name: `${data.first} ${data.last}`,
+            Subject: `New ${content.Title} contact from ${data.first} ${data.last}`,
+            Email: data.email,
+            Message: data.body
+          }
         })
       })
-        .then(response => response.json())
-        .then(createData => {
-          fetch(`${process.env.REACT_APP_BACKEND_URL}/emails/send`, {
-            method: 'POST', // or 'PUT'
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              sender: content.sendTo,
-              title: content.Title,
-              first: data.first,
-              last: data.last,
-              email: data.email,
-              body: data.body
-            })
-          })
-            .then(response => response.json())
-            .then(sendData => {
-              if (sendData.message) {
-                setStatus('success')
-                setLoading(false)
-                clearForm()
-              } else if (sendData.error) {
-                setStatus('failure')
-                setLoading(false)
-              }
-            })
-            .catch(() => {
-              setStatus('failure')
-              setLoading(false)
-            })
+        .then(response => {
+          if (response.status === 200) {
+            setStatus('success')
+            setLoading(false)
+            clearForm()
+          } else {
+            setStatus('failure')
+            setLoading(false)
+          }
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err)
           setStatus('failure')
           setLoading(false)
         })
@@ -179,20 +166,22 @@ export default function Contact ({ content }) {
                             required
                         />
                     </Grid>
-                    <Grid item xs={12} >
-                        <TextField
-                            value={data.body}
-                            error={error.body}
-                            helperText={error.email ? "This Can't be Empty" : ''}
-                            onChange={event => { handleFormChange(event.target.value, 'body') }}
-                            sx={classes.input}
-                            id="body"
-                            label={content.bodyTitle}
-                            fullWidth
-                            required
-                            multiline
-                            rows={8}
-                        />
+                    <Grid item xs={12}>
+                        <AnimationProvider animation={content?.Style?.Animation} direction="up">
+                            <TextField
+                                value={data.body}
+                                error={error.body}
+                                helperText={error.email ? "This Can't be Empty" : ''}
+                                onChange={event => { handleFormChange(event.target.value, 'body') }}
+                                sx={classes.input}
+                                id="body"
+                                label={content.bodyTitle}
+                                fullWidth
+                                required
+                                multiline
+                                rows={8}
+                            />
+                        </AnimationProvider>
                     </Grid>
                     <Grid item xs={12} sx={classes.submit}>
                         <Button disabled={loading} endIcon={<SendIcon />} variant="outlined" color="primary" onClick={sendEmail}>Submit</Button>

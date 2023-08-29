@@ -9,54 +9,38 @@ import Query from './components/utils/query'
 import ContentPage from './pages/contentPage'
 import HomePage from './pages/homePage'
 import NotFoundPage from './pages/notFoundPage'
+import ScrollToTop from './components/utils/scrollToTop'
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      // PacWest Misty Blue
-      main: '#A0AFB7'
-    },
-    secondary: {
-      // PacWest Blue
-      main: '#19469B'
-    },
-    info: {
-      // PacWest Coffee
-      main: '#9B6E19'
-    },
-    // PacWest Light Green
-    success: {
-      main: '#199B2D'
-    },
-    // Pantone 7621 C (Red)
-    warning: {
-      main: '#AB2328'
+const theme = ({ Palette }) => {
+  const colors = ['primary', 'secondary', 'info', 'success', 'warning']
+  const filteredColors = colors.filter(val => Palette[val] != null)
+  const palette = Object.fromEntries(filteredColors.map(val => [val, { main: Palette[val] }]))
+  return createTheme({
+    palette,
+    typography: {
+      fontFamily: [
+        '"Montserrat"',
+        '"sans-serif"',
+        '"Segoe UI"',
+        'Roboto',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"'
+      ].join(',')
     }
-  },
-  typography: {
-    fontFamily: [
-      '"Montserrat"',
-      '"sans-serif"',
-      '"Segoe UI"',
-      'Roboto',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(',')
-  }
-})
+  })
+}
 
-const RegularRoutes = ({ page, setPage, footer, navbar, homepage, contentPages }) => {
-  console.log(homepage)
+const RegularRoutes = ({ page, setPage, navIndex, setNavIndex, footer, navbar, homepage, contentPages }) => {
   return (
     <>
-      <Navbar content={navbar.data.attributes.Items} mobileData={navbar.data.attributes.MobileConfig} style={navbar.data.attributes.Style} page={page}/>
+      <Navbar content={navbar.data.attributes.Items} mobileData={navbar.data.attributes.MobileConfig} style={navbar.data.attributes.Style} appearance={navbar.data.attributes.Appearance} page={page} navIndex={navIndex} />
         <Routes>
           {contentPages.data.map((item, key) => (
-            <Route key={key} path={item.attributes.Link} element={<ContentPage setPage={setPage} name={item.attributes.Name} content={item.attributes.Content}/> }/>
+            <Route key={key} path={item.attributes.Link} element={<ContentPage setNavIndex={setNavIndex} path={item.attributes.Link} setPage={setPage} name={item.attributes.Name} content={item.attributes.Content}/> }/>
           ))}
-          <Route path="/" exact element={<HomePage setPage={setPage} pageName={homepage.data.attributes.PageName} content={homepage.data.attributes.Content}/>} />
-          <Route element={<NotFoundPage setPage={setPage} />} />
+          <Route path="/" exact element={<HomePage setNavIndex={setNavIndex} setPage={setPage} path="/" pageName={homepage.data.attributes.PageName} content={homepage.data.attributes.Content}/>} />
+          <Route path="*" element={<NotFoundPage setPage={setPage} />} />
         </Routes>
       <Footer content={footer.data.attributes.Content} />
     </>
@@ -65,23 +49,25 @@ const RegularRoutes = ({ page, setPage, footer, navbar, homepage, contentPages }
 
 export default function App () {
   const [page, setPage] = useState('Home')
+  const [navIndex, setNavIndex] = useState(null)
 
   useEffect(() => {
     document.title = `${page} | PacWest Pressure Washing`
   }, [page])
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
         <Query query={APP_QUERY}>
           {({ data }) => {
             return (
-              <Router>
-                <RegularRoutes setPage={setPage} page={page} {...data} />
-              </Router>
+              <ThemeProvider theme={theme(data.siteSettings.data.attributes)}>
+                <Router>
+                  <ScrollToTop />
+                  <RegularRoutes setPage={setPage} page={page} {...data} setNavIndex={setNavIndex} navIndex={navIndex}/>
+                </Router>
+              </ThemeProvider>
             )
           }}
         </Query>
-      </ThemeProvider>
     </div>
   )
 }

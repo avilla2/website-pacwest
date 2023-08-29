@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import AnimationProvider from '../utils/animationProvider'
 
 const classes = {
   root: {
@@ -30,18 +31,24 @@ export default function PictureGrid ({ content }) {
                 >
                     {content.Entry.map((entry, index) => {
                       return (
-                            <Grid xs={12} sm={6} md={4} item key={index}>
-                                <img
-                                    style={classes.image}
-                                    src={`${process.env.REACT_APP_BACKEND_URL}${entry.Picture.data.attributes.url}`}
-                                    alt={entry.Picture.id}
-                                />
-                                <Box sx={classes.caption}>
-                                    <Typography component="div">
-                                        <ReactMarkdown>{entry.Caption}</ReactMarkdown>
-                                    </Typography>
-                                </Box>
-                            </Grid>
+                        <Grid xs={12} sm={6} md={4} item key={index}>
+                            <AnimationProvider animation={content?.Style?.Animation} timeout={1000 + (index * 300)} partialVisibility>
+                                <div>
+                                    {entry?.Picture?.data &&
+                                        <img
+                                            style={classes.image}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}${entry.Picture.data?.attributes.url}`}
+                                            alt={entry.Picture.id}
+                                        />
+                                    }
+                                    <Box sx={classes.caption}>
+                                        <Typography component="div">
+                                            <ReactMarkdown>{entry.Caption}</ReactMarkdown>
+                                        </Typography>
+                                    </Box>
+                                </div>
+                            </AnimationProvider>
+                        </Grid>
                       )
                     })}
             </Grid>
