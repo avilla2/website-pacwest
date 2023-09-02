@@ -2,16 +2,16 @@ import { useTheme } from '@mui/material/styles'
 
 const calculatePadding = (lastComponent, fullHeightComponents, contentType) => {
   const theme = useTheme()
-  let topSpacing = null
-  let bottomSpacing = null
+  let topSpacing = 0
+  let bottomSpacing = 0
   if (!fullHeightComponents.includes(contentType)) {
-    topSpacing = theme.spacing(3)
-    bottomSpacing = theme.spacing(3)
+    topSpacing = theme.spacing(4)
+    bottomSpacing = theme.spacing(4)
   }
   if (lastComponent) {
     bottomSpacing = theme.spacing(5)
   }
-  if (!(topSpacing && bottomSpacing)) {
+  if (topSpacing === 0 && bottomSpacing === 0) {
     return null
   }
   return `${topSpacing} 0 ${bottomSpacing} 0`

@@ -11,7 +11,7 @@ const classes = {
     fontFamily: theme.typography.fontFamily,
     marginLeft: '5%',
     marginRight: '5%',
-    marginTop: theme.spacing(3)
+    paddingTop: theme.spacing(3)
   })
 }
 
@@ -72,7 +72,7 @@ export default function Media ({ content }) {
             { content.asset.data &&
                 renderComponent(content.asset.data.attributes.Content[0])
             }
-            { content.asset.data &&
+            { content.asset?.data?.attributes?.Caption &&
               <AnimationProvider animation={content?.Style?.Animation} direction="down">
                 <Box sx={classes.caption}>
                     <ReactMarkdown>{content.asset.data.attributes.Caption}</ReactMarkdown>

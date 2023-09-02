@@ -10,7 +10,7 @@ import AnimationProvider from '../utils/animationProvider'
 
 const classes = {
   root: {
-    margin: 'auto 5%'
+    margin: 'auto 5% 1% 5%'
   },
   buttonGroup: {
     display: 'flex',
@@ -25,11 +25,11 @@ export default function Buttons ({ content }) {
     const trueColor = color || theme.palette.primary.main
     switch (content.ButtonStyle) {
       case 'contained':
-        return { backgroundColor: trueColor }
+        return { backgroundColor: trueColor, color: 'inherit' }
       case 'text':
         return { color: trueColor }
       default:
-        return { borderColor: trueColor }
+        return { borderColor: trueColor, color: 'inherit' }
     }
   }
 

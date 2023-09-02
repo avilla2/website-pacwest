@@ -17,7 +17,7 @@ const classes = {
   })
 }
 
-const fullHeightComponents = ['ComponentHomePageComponentsIntro']
+const fullHeightComponents = ['ComponentHomePageComponentsIntro', 'ComponentHomePageComponentsMedia']
 
 export default function GenerateHomePageContent ({ content, lastComponent }) {
   const padding = calculatePadding(lastComponent, fullHeightComponents, content.__typename)
