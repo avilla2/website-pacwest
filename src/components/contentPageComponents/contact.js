@@ -87,12 +87,14 @@ export default function Contact ({ content }) {
           'Authorization': `Bearer ${process.env.REACT_APP_API_TOKEN}`
         },
         body: JSON.stringify({
-          SendTo: content.sendTo,
-          SendFrom: content.sendFrom,
-          Name: `${data.first} ${data.last}`,
-          Subject: `New ${content.Title} contact from ${data.first} ${data.last}`,
-          Email: data.email,
-          Message: data.body
+          data: {
+            SendTo: content.sendTo,
+            SendFrom: content.sendFrom,
+            Name: `${data.first} ${data.last}`,
+            Subject: `New ${content.Title} contact from ${data.first} ${data.last}`,
+            Email: data.email,
+            Message: data.body
+          }
         })
       })
         .then(response => {
