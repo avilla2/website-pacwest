@@ -79,7 +79,7 @@ export default function Contact ({ content }) {
 
     if (regex.test(data.email)) {
       setLoading(true)
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/emails`, {
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/api/email`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -87,14 +87,19 @@ export default function Contact ({ content }) {
           'Authorization': `Bearer ${process.env.REACT_APP_API_TOKEN}`
         },
         body: JSON.stringify({
-          data: {
-            SendTo: content.sendTo,
-            SendFrom: content.sendFrom,
-            Name: `${data.first} ${data.last}`,
-            Subject: `New ${content.Title} contact from ${data.first} ${data.last}`,
-            Email: data.email,
-            Message: data.body
-          }
+          to: content.sendTo,
+          from: content.sendFrom,
+          replyTo: data.email,
+          subject: `New ${content.Title} inquiry from ${data.first} ${data.last}`,
+          text: data.body
+        //   data: {
+        //     SendTo: content.sendTo,
+        //     SendFrom: content.sendFrom,
+        //     Name: `${data.first} ${data.last}`,
+        //     Subject: `New ${content.Title} contact from ${data.first} ${data.last}`,
+        //     Email: data.email,
+        //     Message: data.body
+        //   }
         })
       })
         .then(response => {
