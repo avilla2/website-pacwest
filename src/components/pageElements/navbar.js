@@ -15,8 +15,9 @@ import Drawer from '@mui/material/Drawer'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import Divider from '@mui/material/Divider'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import isExternal from '../utils/isExternalLink'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const classes = {
   root: {},
@@ -62,6 +63,9 @@ const classes = {
   mobileLogo: {
     width: '2.2rem'
   },
+  mobileBack: {
+    marginRight: '10px'
+  },
   mobileTitle: {
     flexGrow: 1,
     textAlign: 'left'
@@ -82,13 +86,21 @@ const classes = {
 
 export default function Navbar ({ page, navIndex, content, mobileData, style, appearance }) {
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
+  const navigate = useNavigate()
   const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 65 })
   const [isOpen, setIsOpen] = useState(false)
+  const [showBackButton, setShowBackButton] = useState(false)
   const [active, setActive] = useState(-1)
 
   React.useEffect(() => {
+    console.log(navIndex)
     if (navIndex) {
       setActive(navIndex)
+    }
+    if (navIndex === '/') {
+      setShowBackButton(false)
+    } else {
+      setShowBackButton(true)
     }
   })
 
@@ -181,13 +193,18 @@ export default function Navbar ({ page, navIndex, content, mobileData, style, ap
       {/* Mobile Navbar */}
         <AppBar position="fixed">
           <Toolbar sx={classes.mobileNav}>
-            <IconButton onClick={() => setActive('')} component={Link} to={mobileData.IconLink} edge="start">
-              <img style={classes.mobileLogo} src={`${process.env.REACT_APP_BACKEND_URL}${mobileData.MobileIcon.data.attributes.url}`} alt="Logo"/>
-            </IconButton>
+            {showBackButton
+              ? <IconButton onClick={() => navigate(-1)} edge="start" style={classes.mobileBack}>
+                  <ArrowBackIcon />
+                </IconButton>
+              : <IconButton onClick={() => setActive('')} component={Link} to={mobileData.IconLink} edge="start" style={classes.mobileBack}>
+                  <img style={classes.mobileLogo} src={`${process.env.REACT_APP_BACKEND_URL}${mobileData.MobileIcon.data.attributes.url}`} alt="Logo"/>
+                </IconButton>
+            }
             <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)}>
               <MobileDrawer links={content} drawerLink={mobileData.DrawerLink} drawerText={mobileData.DrawerText} />
             </Drawer>
-            <Typography variant="h6" sx={classes.mobileTitle}>
+            <Typography variant="body1" sx={classes.mobileTitle}>
               {page}
             </Typography>
             <IconButton edge="end" onClick={toggleDrawer(true)} color="inherit" aria-label="menu">
