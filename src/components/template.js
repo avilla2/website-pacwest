@@ -10,7 +10,7 @@ const classes = {
 
 export default function Template ({ content }) {
   return (
-        <Box className={classes.root}>
+        <Box style={classes.root}>
         </Box>
   )
 }

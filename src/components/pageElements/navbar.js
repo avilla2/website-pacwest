@@ -93,7 +93,6 @@ export default function Navbar ({ page, navIndex, content, mobileData, style, ap
   const [active, setActive] = useState(-1)
 
   React.useEffect(() => {
-    console.log(navIndex)
     if (navIndex) {
       setActive(navIndex)
     }

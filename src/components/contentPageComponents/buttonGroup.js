@@ -1,12 +1,10 @@
 import React from 'react'
-import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import isExternal from '../utils/isExternalLink'
-import { Link } from 'react-router-dom'
-import { useTheme } from '@mui/material/styles'
 import ButtonGroup from '@mui/material/ButtonGroup'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import AnimationProvider from '../utils/animationProvider'
+import { useTheme } from '@mui/material/styles'
+import Button from '../pageFeatures/button'
 
 const classes = {
   root: {
@@ -20,18 +18,6 @@ const classes = {
 export default function Buttons ({ content }) {
   const theme = useTheme()
   const mobile = useMediaQuery(theme.breakpoints.down('sm'))
-
-  const getButtonColor = (color) => {
-    const trueColor = color || theme.palette.primary.main
-    switch (content.ButtonStyle) {
-      case 'contained':
-        return { backgroundColor: trueColor, color: 'inherit' }
-      case 'text':
-        return { color: trueColor }
-      default:
-        return { borderColor: trueColor, color: 'inherit' }
-    }
-  }
 
   const getButtonSpacing = () => {
     switch (content.ButtonArrangement) {
@@ -50,7 +36,6 @@ export default function Buttons ({ content }) {
       return <Box sx={classes.buttonGroup} style={getButtonSpacing()}>{children}</Box>
     }
   }
-
   return (
     <AnimationProvider animation={content?.Style?.Animation} direction="down">
         <Box sx={classes.root}>
@@ -58,14 +43,12 @@ export default function Buttons ({ content }) {
             {content.Entry.map((entry, index) => (
                 <Button
                     key={index}
-                    variant={content?.ButtonStyle ? content.ButtonStyle : 'outlined'}
-                    size={mobile ? 'regular' : 'large'}
-                    component={isExternal(entry.Link) ? 'a' : Link}
-                    href={entry.Link}
-                    to={entry.Link}
-                    sx={getButtonColor(entry.ButtonColor)}
+                    buttonStyle={content?.GroupButtonStyle}
+                    mobile={mobile}
+                    link={entry.Link}
+                    color={entry.ButtonColor}
                 >
-                {entry.Text}
+                  {entry.Text}
                 </Button>
             ))}
             </ButtonGroupRoot>

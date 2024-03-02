@@ -9,95 +9,95 @@ fragment StyleFragment on ComponentContentPageComponentsStyle {
 fragment Content on ContentPageContentDynamicZone {
     __typename
     ... on ComponentHomePageComponentsIntro {
-    id
-    File {
-        data {
-            attributes {
-                mime
-                url
-                width
-                alternativeText
-            }
-        }
-    }
-    Style {
-        ...StyleFragment
-    }
-    IntroText
-    TextPosition
-    }
-    ... on ComponentHomePageComponentsGallery {
-    id
-    Title
-    Style {
-      ...StyleFragment
-    }
-    Pictures {
-        data {
-            attributes {
-                url
-                width
-                alternativeText
-            }
-        }
-    }
-    }
-    ... on ComponentHomePageComponentsMedia {
-    id
-    Title
-    Style {
-      ...StyleFragment
-    }
-    asset {
-        data {
-        attributes {
-            Name
-            Caption
-            Content {
-            __typename
-            ... on ComponentAssetComponentsPdf {
-                File {
-                data {
-                    attributes {
+        id
+        File {
+            data {
+                attributes {
+                    mime
                     url
                     width
-                    }
-                }
+                    alternativeText
                 }
             }
-            ... on ComponentAssetComponentsVideo {
-                Autoplay
-                Loop
-                Muted
-                Width
-                Controls
-                File {
+        }
+        Style {
+            ...StyleFragment
+        }
+        IntroText
+        TextPosition
+    }
+    ... on ComponentHomePageComponentsGallery {
+        id
+        Title
+        Style {
+        ...StyleFragment
+        }
+        Pictures {
+            data {
+                attributes {
+                    url
+                    width
+                    alternativeText
+                }
+            }
+        }
+    }
+    ... on ComponentHomePageComponentsMedia {
+        id
+        Title
+        Style {
+        ...StyleFragment
+        }
+        asset {
+            data {
+            attributes {
+                Name
+                Caption
+                Content {
+                __typename
+                ... on ComponentAssetComponentsPdf {
+                    File {
                     data {
                         attributes {
-                            url
-                            width
+                        url
+                        width
+                        }
+                    }
+                    }
+                }
+                ... on ComponentAssetComponentsVideo {
+                    Autoplay
+                    Loop
+                    Muted
+                    Width
+                    Controls
+                    File {
+                        data {
+                            attributes {
+                                url
+                                width
+                            }
                         }
                     }
                 }
-            }
-            ... on ComponentAssetComponentsImage {
-                Style
-                Width
-                Height
-                File {
-                    data {
-                        attributes {
-                            url
-                            width
-                            alternativeText
+                ... on ComponentAssetComponentsImage {
+                    Style
+                    Width
+                    Height
+                    File {
+                        data {
+                            attributes {
+                                url
+                                width
+                                alternativeText
+                        }
+                    }
                     }
                 }
                 }
             }
             }
         }
-        }
-    }
     }
     ... on ComponentContentPageComponentsParagraph {
         id
@@ -157,8 +157,25 @@ fragment Content on ContentPageContentDynamicZone {
             Text
             ButtonColor
         }
-        ButtonStyle
+        GroupButtonStyle: ButtonStyle
         ButtonArrangement
+    }
+    ... on ComponentContentPageComponentsInstantQuote {
+        id
+        Title
+        SendTo
+        SendFrom
+        FormButtonStyle: ButtonStyle
+        ButtonColor
+        ButtonText
+        Style {
+            ...StyleFragment
+        }
+        Entry {
+          id
+          PricePer
+          JobType
+        }
     }
 }
 `

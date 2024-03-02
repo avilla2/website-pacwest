@@ -4,6 +4,7 @@ import Paragraph from '../contentPageComponents/paragraph'
 import Form from '../contentPageComponents/contact'
 import Grid from '../contentPageComponents/grid'
 import Buttons from '../contentPageComponents/buttonGroup'
+import InstantQuoteCalculator from '../contentPageComponents/instantQuoteCalculator'
 import Intro from '../homePageComponents/intro'
 import Gallery from '../homePageComponents/gallery'
 import TextGrid from '../homePageComponents/textGrid'
@@ -23,6 +24,8 @@ const renderComponent = (object) => {
       return <Grid content={object} />
     case 'ComponentContentPageComponentsButtons':
       return <Buttons content={object} />
+    case 'ComponentContentPageComponentsInstantQuote':
+      return <InstantQuoteCalculator content={object} />
     case 'ComponentHomePageComponentsIntro':
       return <Intro content={object} />
     case 'ComponentHomePageComponentsGallery':
