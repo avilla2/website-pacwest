@@ -10,7 +10,7 @@ const classes = {
   },
   title: (theme) => ({
     margin: 'auto 2%',
-    fontSize: '2.5rem',
+    fontSize: '2.3rem',
     [theme.breakpoints.down('md')]: {
       fontSize: '1.5rem'
     }

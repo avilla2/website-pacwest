@@ -19,14 +19,54 @@ const theme = ({ Palette }) => {
     palette,
     typography: {
       fontFamily: [
-        '"Montserrat"',
+        '"Roboto Flex"',
+        '"Russo One"',
         '"sans-serif"',
         '"Segoe UI"',
         'Roboto',
         '"Apple Color Emoji"',
         '"Segoe UI Emoji"',
         '"Segoe UI Symbol"'
-      ].join(',')
+      ].join(','),
+      body1: {
+        fontWeight: 400
+      },
+      h2: {
+        fontFamily: [
+          '"Russo One"',
+          '"Roboto Flex"',
+          '"sans-serif"',
+          '"Segoe UI"',
+          'Roboto',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"'
+        ].join(',')
+      },
+      h6: {
+        fontFamily: [
+          '"Russo One"',
+          '"Roboto Flex"',
+          '"sans-serif"',
+          '"Segoe UI"',
+          'Roboto',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"'
+        ].join(',')
+      },
+      subtitle1: {
+        fontFamily: [
+          '"Russo One"',
+          '"Roboto Flex"',
+          '"sans-serif"',
+          '"Segoe UI"',
+          'Roboto',
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"'
+        ].join(',')
+      }
     }
   })
 }

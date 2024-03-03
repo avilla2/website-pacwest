@@ -32,8 +32,9 @@ export default function GeneratePageContent ({ content, lastComponent }) {
             }}
         >
             {
-                !fullHeightComponents.includes(content.__typename) &&
-                <Typography sx={classes.title} variant="h2"> {content?.Title}</Typography>
+                !fullHeightComponents.includes(content.__typename) && content?.Title
+                  ? <Typography sx={classes.title} variant="h2"> {content?.Title}</Typography>
+                  : <></>
             }
             {renderComponent(content)}
         </Box>

@@ -6,9 +6,9 @@ import Typography from '@mui/material/Typography'
 import AnimationProvider from '../utils/animationProvider'
 
 const classes = {
-  root: {
-    margin: '40px 10% 40px 10%'
-  },
+  root: (theme) => ({
+    margin: 'auto 10%'
+  }),
   image: {
     width: '95%'
   },
