@@ -10,9 +10,9 @@ const classes = {
   }
 }
 
-export default function Footer ({ content }) {
+export default function Footer ({ Content, FontColor: fontColor }) {
   return (
-        <Box sx={classes.root} bgcolor="info.main" component="div">
+        <Box sx={classes.root} bgcolor="info.main" component="div" style={ fontColor ? { color: fontColor } : null }>
            <Grid
                 container
                 direction="row"
@@ -20,11 +20,11 @@ export default function Footer ({ content }) {
                 alignItems="center"
                 spacing={2}
             >
-                {content.map((item, key) => {
+                {Content.map((item, key) => {
                   return (
-                        <Grid item key={key} md={item.Space}>
-                            <GenerateFooterContent content={item} />
-                        </Grid>
+                    <Grid item key={key} md={item.Space}>
+                        <GenerateFooterContent content={item} />
+                    </Grid>
                   )
                 })}
             </Grid>

@@ -5,8 +5,9 @@ import Container from '@mui/material/Container'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import YouTubeIcon from '@mui/icons-material/YouTube'
-import TwitterIcon from '@mui/icons-material/Twitter'
+import XIcon from '@mui/icons-material/X'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import { TikTokIcon } from '../pageFeatures/extraIcons'
 import isExternal from '../utils/isExternalLink'
 import { Link } from 'react-router-dom'
 
@@ -24,8 +25,10 @@ const generateIcon = (iconName) => {
       return <FacebookIcon fontSize='large' />
     case 'Youtube':
       return <YouTubeIcon fontSize='large' />
-    case 'Twitter':
-      return <TwitterIcon fontSize='large' />
+    case 'X':
+      return <XIcon fontSize='large' />
+    case 'TikTok':
+      return <TikTokIcon fontSize='large' />
     default:
       return <OpenInNewIcon fontSize='large' />
   }

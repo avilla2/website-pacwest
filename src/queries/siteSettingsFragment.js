@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 const SITESETTINGS_FRAGMENT = gql`
-fragment SiteSettingsFragment on SiteSettings {
+fragment SiteSettingsFragment on WebsiteSetting {
   Palette {
     primary
     success

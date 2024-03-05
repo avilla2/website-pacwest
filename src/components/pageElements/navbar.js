@@ -25,7 +25,6 @@ const classes = {
     margin: '0 2% 0 2%;',
     minHeight: 128,
     alignItems: 'center',
-    color: 'white',
     '& a:first-of-type': {
       flexGrow: 1,
       display: 'flex',
@@ -37,7 +36,6 @@ const classes = {
     margin: '0 2% 0 2%;',
     minHeight: 128,
     alignItems: 'center',
-    color: 'white',
     '& a': {
       flexGrow: 1
     }
@@ -46,8 +44,7 @@ const classes = {
     justifyContent: 'flex-start',
     margin: '0 2% 0 2%;',
     minHeight: 128,
-    alignItems: 'center',
-    color: 'white'
+    alignItems: 'center'
   },
   title: {
     display: 'block',
@@ -66,25 +63,34 @@ const classes = {
   },
   mobileTitle: {
     flexGrow: 1,
-    textAlign: 'left',
-    color: 'white'
+    textAlign: 'left'
 
   },
   mobileNav: {
     justifyContent: 'space-between'
   },
+  toolbar: {
+    color: 'inherit'
+  },
   mobileDrawer: (theme) => ({
     width: 230,
-    color: 'white',
     backgroundColor: theme.palette.primary.main,
     flexGrow: 1
   }),
-  divider: {
-    backgroundColor: 'white'
-  }
+  textColor: (color) => { if (color) return ({ color }) }
 }
 
-export default function Navbar ({ page, navIndex, content, mobileData, style, appearance }) {
+export default function Navbar ({
+  page,
+  navIndex,
+  setSiteId,
+  siteId,
+  Items: content,
+  MobileConfig: mobileData,
+  Style: style,
+  Appearance: appearance,
+  FontColor: fontColor
+}) {
   const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
   const navigate = useNavigate()
   const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 65 })
@@ -145,14 +151,14 @@ export default function Navbar ({ page, navIndex, content, mobileData, style, ap
       >
         <List>
           <ListItem onClick={() => setActive(-1)} component={Link} to={drawerLink} button>
-            <ListItemText primaryTypographyProps={{ variant: 'h6' }} primary={drawerText} />
+            <ListItemText primaryTypographyProps={{ variant: 'h6' }} primary={drawerText} sx={classes.textColor(fontColor)} />
           </ListItem>
-          <Divider variant="middle" sx={classes.divider} />
+          <Divider variant="middle" sx={fontColor ? { backgroundColor: fontColor } : null} />
           {links.map((item, index) => (
             item.__typename === 'ComponentNavbarComponentsTextLink'
               ? <div key={index}>
                 <ListItem button onClick={() => setActive(item.Link)} component={isExternal(item.Link) ? 'a' : Link} href={item.Link} to={item.Link}>
-                  <ListItemText primaryTypographyProps={{ variant: 'subtitle1' }} sx={[classes.title, active === item.Link ? classes.hovered : classes.none]} primary={item.Title} />
+                  <ListItemText primaryTypographyProps={{ variant: 'subtitle1' }} sx={[classes.title, active === item.Link ? classes.hovered : classes.textColor(fontColor)]} primary={item.Title} />
                 </ListItem>
               </div>
               : null
@@ -174,11 +180,11 @@ export default function Navbar ({ page, navIndex, content, mobileData, style, ap
   }
 
   return (
-    <Box>
+    <Box sx={ fontColor ? { color: fontColor } : null }>
       {/* Desktop Navbar */}
       {hidden
         ? (
-            <AppBar position="fixed" elevation={!trigger ? 0 : 1} color={!trigger && appearance === 'fade_in' ? 'transparent' : 'primary' } >
+            <AppBar sx={classes.toolbar} position="fixed" elevation={!trigger ? 0 : 1} color={!trigger && appearance === 'fade_in' ? 'transparent' : 'primary' } >
               <Toolbar sx={pickStyle()}>
                 {content.map((item, index) => {
                   return (
@@ -192,7 +198,7 @@ export default function Navbar ({ page, navIndex, content, mobileData, style, ap
           )
         : <>
             {/* Mobile Navbar */}
-            <AppBar position="fixed">
+            <AppBar position="fixed" sx={classes.toolbar}>
               <Toolbar sx={classes.mobileNav}>
                 {showBackButton
                   ? <IconButton onClick={() => navigate(-1)} edge="start" style={classes.mobileBack}>
@@ -209,7 +215,7 @@ export default function Navbar ({ page, navIndex, content, mobileData, style, ap
                   {page}
                 </Typography>
                 <IconButton edge="end" onClick={toggleDrawer(true)} color="inherit" aria-label="menu">
-                  <MenuIcon style={{ color: 'white' }}/>
+                  <MenuIcon style={ fontColor ? { color: fontColor } : null }/>
                 </IconButton>
               </Toolbar>
             </AppBar>

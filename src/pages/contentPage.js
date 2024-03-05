@@ -45,7 +45,7 @@ export default function ContentPage ({ setPage, setNavIndex, name, content, path
         <Box sx={classes.root}>
             {hidden &&
                 <Box sx={classes.base}>
-                    <Typography component="h1" sx={classes.title}>{name}</Typography>
+                    <Typography variant="h2" sx={classes.title}>{name}</Typography>
                 </Box>
 
             }

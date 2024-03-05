@@ -10,6 +10,7 @@ const classes = {
     fontWeight: '500',
     lineHeight: '24px',
     textAlign: 'center',
+    color: 'inherit',
     fontFamily: theme.typography.fontFamily
   })
 }

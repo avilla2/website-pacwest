@@ -1,8 +1,9 @@
 import gql from 'graphql-tag'
 
 const FOOTER_FRAGMENT = gql`
-fragment FooterFragment on Footer {
-   Content {
+fragment FooterFragment on WebsiteFooter {
+  FontColor
+  Content {
     __typename
     ... on ComponentFooterComponentsImage {
       Image {

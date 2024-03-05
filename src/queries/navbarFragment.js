@@ -1,8 +1,9 @@
 import gql from 'graphql-tag'
 
 const NAVBAR_FRAGMENT = gql`
-fragment NavbarFragment on Navbar {
+fragment NavbarFragment on WebsiteNavbar {
   Style
+  FontColor
   Appearance
   Items {
     __typename
