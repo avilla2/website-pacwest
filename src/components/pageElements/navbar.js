@@ -12,7 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
 import Drawer from '@mui/material/Drawer'
-import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Divider from '@mui/material/Divider'
 import { Link, useNavigate } from 'react-router-dom'
@@ -64,8 +64,13 @@ const classes = {
   mobileTitle: {
     flexGrow: 1,
     textAlign: 'left'
-
   },
+  navButton: (theme) => ({
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3)
+  }),
   mobileNav: {
     justifyContent: 'space-between'
   },
@@ -76,6 +81,22 @@ const classes = {
     width: 230,
     backgroundColor: theme.palette.primary.main,
     flexGrow: 1
+  }),
+  mobileDrawerList: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'space-between'
+  },
+  mobileDrawerMiddle: {
+    flex: 1
+  },
+  mobileDrawerBottom: (theme) => ({
+    marginBottom: theme.spacing(4),
+    alignSelf: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    rowGap: theme.spacing(2)
   }),
   textColor: (color) => { if (color) return ({ color }) }
 }
@@ -89,9 +110,10 @@ export default function Navbar ({
   MobileConfig: mobileData,
   Style: style,
   Appearance: appearance,
-  FontColor: fontColor
+  FontColor: fontColor,
+  minSize
 }) {
-  const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
+  const hidden = useMediaQuery(theme => theme.breakpoints.up(minSize))
   const navigate = useNavigate()
   const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 65 })
   const [isOpen, setIsOpen] = useState(false)
@@ -116,7 +138,7 @@ export default function Navbar ({
     setIsOpen(open)
   }
 
-  const NavButton = ({ title, link, external, id }) => {
+  const NavLink = ({ title, link, external, id }) => {
     return (
       <ButtonBase component={external ? 'a' : Link} onClick={() => setActive(id)} href={link} to={link} className="link" color="inherit">
         <Container className={`mask ${active === id ? 'active' : ''}`}>
@@ -141,7 +163,26 @@ export default function Navbar ({
     )
   }
 
+  const NavButton = ({ text, color, link, external, id }) => {
+    return (
+      <Button
+        variant='contained'
+        size='small'
+        onClick={() => setActive(id)}
+        component={external ? 'a' : Link}
+        href={link}
+        to={link}
+        sx={[classes.navButton, color ? { backgroundColor: color } : {}, { borderRadius: 20 }]}
+      >
+        <Typography variant='subtitle1' sx={[fontColor ? { color: fontColor } : {}, { fontSize: 14 }]}>
+          {text}
+        </Typography>
+      </Button>
+    )
+  }
+
   const MobileDrawer = ({ links, drawerLink, drawerText }) => {
+    const navButtonList = []
     return (
       <Box
         sx={classes.mobileDrawer}
@@ -149,20 +190,41 @@ export default function Navbar ({
         onClick={toggleDrawer(false)}
         onKeyDown={toggleDrawer(false)}
       >
-        <List>
-          <ListItem onClick={() => setActive(-1)} component={Link} to={drawerLink} button>
-            <ListItemText primaryTypographyProps={{ variant: 'h6' }} primary={drawerText} sx={classes.textColor(fontColor)} />
-          </ListItem>
-          <Divider variant="middle" sx={fontColor ? { backgroundColor: fontColor } : null} />
-          {links.map((item, index) => (
-            item.__typename === 'ComponentNavbarComponentsTextLink'
-              ? <div key={index}>
-                <ListItem button onClick={() => setActive(item.Link)} component={isExternal(item.Link) ? 'a' : Link} href={item.Link} to={item.Link}>
-                  <ListItemText primaryTypographyProps={{ variant: 'subtitle1' }} sx={[classes.title, active === item.Link ? classes.hovered : classes.textColor(fontColor)]} primary={item.Title} />
-                </ListItem>
-              </div>
-              : null
-          ))}
+        <List style={classes.mobileDrawerList}>
+          <Box>
+            <ListItemButton onClick={() => setActive(-1)} component={Link} to={drawerLink}>
+              <ListItemText primaryTypographyProps={{ variant: 'h6' }} primary={drawerText} sx={classes.textColor(fontColor)} />
+            </ListItemButton>
+            <Divider variant="middle" sx={fontColor ? { backgroundColor: fontColor } : null} />
+          </Box>
+          <List style={classes.mobileDrawerMiddle}>
+          {links.map((item, index) => {
+            if (item.__typename === 'ComponentNavbarComponentsNavButton') {
+              navButtonList.push(item)
+            }
+            if (item.__typename === 'ComponentNavbarComponentsTextLink') {
+              return (
+                <ListItemButton key={index} onClick={() => setActive(item.Link)} component={isExternal(item.Link) ? 'a' : Link} href={item.Link} to={item.Link}>
+                    <ListItemText primaryTypographyProps={{ variant: 'subtitle1' }} sx={[classes.title, active === item.Link ? classes.hovered : classes.textColor(fontColor)]} primary={item.Title} />
+                </ListItemButton>
+              )
+            } else {
+              return null
+            }
+          })}
+          </List>
+          <List sx={classes.mobileDrawerBottom}>
+            {navButtonList.map((item, index) => (
+              <NavButton
+                key={index}
+                id={item.Link}
+                external={isExternal(item.Link)}
+                link={item.Link}
+                color={item.Color}
+                text={item.Text}
+              />
+            ))}
+          </List>
         </List>
       </Box>
     )
@@ -179,6 +241,19 @@ export default function Navbar ({
     }
   }
 
+  const NavComponentDesktop = ({ item }) => {
+    switch (item.__typename) {
+      case 'ComponentNavbarComponentsTextLink':
+        return <NavLink id={item.Link} external={isExternal(item.Link)} title={item.Title} link={item.Link} />
+      case 'ComponentNavbarComponentsImageLink':
+        return <NavButtonIcon id={item.Link} external={isExternal(item.Link)} width={item.Width} link={item.Link} src={`${process.env.REACT_APP_BACKEND_URL}${item.Image.data.attributes.url}`} alt={item.Image.data.attributes.name} />
+      case 'ComponentNavbarComponentsNavButton':
+        return <NavButton id={item.Link} external={isExternal(item.Link)} link={item.Link} color={item.Color} text={item.Text} />
+      default:
+        return <></>
+    }
+  }
+
   return (
     <Box sx={ fontColor ? { color: fontColor } : null }>
       {/* Desktop Navbar */}
@@ -186,13 +261,7 @@ export default function Navbar ({
         ? (
             <AppBar sx={classes.toolbar} position="fixed" elevation={!trigger ? 0 : 1} color={!trigger && appearance === 'fade_in' ? 'transparent' : 'primary' } >
               <Toolbar sx={pickStyle()}>
-                {content.map((item, index) => {
-                  return (
-                    item.__typename === 'ComponentNavbarComponentsTextLink'
-                      ? <NavButton key={index} id={item.Link} external={isExternal(item.Link)} title={item.Title} link={item.Link} />
-                      : <NavButtonIcon key={index} id={item.Link} width={item.Width} link={item.Link} src={`${process.env.REACT_APP_BACKEND_URL}${item.Image.data.attributes.url}`} alt={item.Image.data.attributes.name} />
-                  )
-                })}
+                {content.map((item, index) => <NavComponentDesktop item={item} key={index} />)}
               </Toolbar>
             </AppBar>
           )

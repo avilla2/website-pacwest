@@ -25,8 +25,8 @@ const classes = {
     fontSize: '1.5rem',
     marginBottom: '18px'
   },
-  page: (theme) => ({
-    [theme.breakpoints.up('md')]: {
+  page: (theme, minSize) => ({
+    [theme.breakpoints.up(minSize)]: {
       marginTop: titleHeight,
       backgroundColor: 'white',
       paddingTop: '0px'
@@ -34,8 +34,8 @@ const classes = {
   })
 }
 
-export default function ContentPage ({ setPage, setNavIndex, name, content, path }) {
-  const hidden = useMediaQuery(theme => theme.breakpoints.up('md'))
+export default function ContentPage ({ setPage, setNavIndex, name, content, path, minSize }) {
+  const hidden = useMediaQuery(theme => theme.breakpoints.up(minSize))
 
   useEffect(() => {
     setPage(name)
@@ -49,7 +49,7 @@ export default function ContentPage ({ setPage, setNavIndex, name, content, path
                 </Box>
 
             }
-                <Box sx={classes.page}>
+                <Box sx={(theme) => classes.page(theme, minSize)}>
                     {content.map((item, index) => {
                       return (
                         <GeneratePageContent

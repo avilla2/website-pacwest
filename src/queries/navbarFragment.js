@@ -12,6 +12,11 @@ fragment NavbarFragment on WebsiteNavbar {
       Link
       id
     }
+    ... on ComponentNavbarComponentsNavButton {
+      Text
+      Link
+      Color
+    }
     ... on ComponentNavbarComponentsImageLink {
       id
       Image {

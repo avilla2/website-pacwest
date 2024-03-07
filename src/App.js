@@ -84,13 +84,13 @@ const createThemeConfigs = ({ Palette }) => {
   })
 }
 
-const RegularRoutes = ({ page, setPage, navIndex, setNavIndex, siteId, setSiteId, Footer, Navbar, Homepage, ContentPages }) => {
+const RegularRoutes = ({ page, setPage, navIndex, setNavIndex, siteId, setSiteId, Footer, Navbar, Homepage, ContentPages, SiteSettings }) => {
   return (
     <>
-      <SiteNavbar siteId={siteId} setSiteId={setSiteId} page={page} navIndex={navIndex} {...Navbar.data.attributes} />
+      <SiteNavbar siteId={siteId} setSiteId={setSiteId} page={page} navIndex={navIndex} minSize={SiteSettings.data.attributes.DesktopBreakpoint} {...Navbar.data.attributes} />
         <Routes>
           {ContentPages.data.map((item, key) => (
-            <Route key={key} path={item.attributes.Link} element={<ContentPage setNavIndex={setNavIndex} path={item.attributes.Link} setPage={setPage} name={item.attributes.Name} content={item.attributes.Content}/> }/>
+            <Route key={key} path={item.attributes.Link} element={<ContentPage minSize={SiteSettings.data.attributes.DesktopBreakpoint} setNavIndex={setNavIndex} path={item.attributes.Link} setPage={setPage} name={item.attributes.Name} content={item.attributes.Content}/> }/>
           ))}
           <Route path="/" exact element={<HomePage setNavIndex={setNavIndex} setPage={setPage} path="/" pageName={Homepage.data.attributes.PageName} content={Homepage.data.attributes.Content}/>} />
           <Route path="*" element={<NotFoundPage setPage={setPage} />} />

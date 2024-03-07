@@ -37,8 +37,9 @@ const CSSTextField = styled(TextField, {
 
 const classes = {
   root: {
-    margin: 'auto 5%',
-    color: 'inherit'
+    margin: 'auto',
+    color: 'inherit',
+    maxWidth: 750
   },
   cardContent: {
     display: 'flex',
@@ -156,213 +157,215 @@ export default function InstantQuoteCalculator ({ content }) {
     }
   }
   return (
-    <Card sx={classes.root} raised={true} elevation={4}>
-        {componentPhase === 0 &&
+    <Box mx={2.5}>
+      <Card sx={classes.root} raised={true} elevation={4}>
+          {componentPhase === 0 &&
+            <Box>
+              <CardHeader
+                style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
+                title="Request Your Instant Quote">
+              </CardHeader>
+              <CardContent style={classes.cardContent}>
+                <Box>
+                  <Button
+                    style={{ height: 75, width: 150 }}
+                    buttonStyle={content?.FormButtonStyle}
+                    color={content?.ButtonColor}
+                    onClick={() => setComponentPhase(1)}
+                  >
+                    {content?.ButtonText}
+                  </Button>
+                </Box>
+              </CardContent>
+            </Box>
+          }
+        <Slide direction="left" in={componentPhase === 1} mountOnEnter unmountOnExit exit={false}>
           <Box>
             <CardHeader
               style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
-              title="Request Your Instant Quote">
+              title="What service are you wanting?">
             </CardHeader>
             <CardContent style={classes.cardContent}>
-              <Box>
-                <Button
-                  style={{ height: 75, width: 150 }}
-                  buttonStyle={content?.FormButtonStyle}
-                  color={content?.ButtonColor}
-                  onClick={() => setComponentPhase(1)}
-                >
-                  {content?.ButtonText}
-                </Button>
+              <Box style={classes.buttonGroup}>
+                {content.Entry.map((entry, index) => (
+                    <Button
+                        key={index}
+                        buttonStyle={content?.FormButtonStyle}
+                        color={content?.ButtonColor}
+                        onClick={() => handlePhase1Change(entry.PricePer, entry.JobType)}
+                    >
+                      {entry.JobType}
+                    </Button>
+                ))}
               </Box>
             </CardContent>
           </Box>
-        }
-      <Slide direction="left" in={componentPhase === 1} mountOnEnter unmountOnExit exit={false}>
-        <Box>
-          <CardHeader
-            style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
-            title="What service are you wanting?">
-          </CardHeader>
-          <CardContent style={classes.cardContent}>
-            <Box style={classes.buttonGroup}>
-              {content.Entry.map((entry, index) => (
-                  <Button
-                      key={index}
-                      buttonStyle={content?.FormButtonStyle}
-                      color={content?.ButtonColor}
-                      onClick={() => handlePhase1Change(entry.PricePer, entry.JobType)}
-                  >
-                    {entry.JobType}
-                  </Button>
-              ))}
-            </Box>
-          </CardContent>
-        </Box>
-      </Slide>
-      <Slide direction="left" in={componentPhase === 2} mountOnEnter unmountOnExit exit={false}>
-        <Box>
-          <CardHeader
-              style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
-              title={`What is the Square Footage of your ${jobType}?`}
-          />
-          <CardContent style={classes.cardContent}>
-            <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.inputSmall } : classes.inputSmall}>
-              <CSSTextField
-                borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
-                inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
-                value={sizeEntry}
-                onChange={event => event.target.value >= 0 ? setSizeEntry(event.target.value) : {}}
-                id="size-input"
-                label="Square Feet"
-                required
-                color='primary'
-                type="number"
-                fullWidth
-                min={0}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment
-                      position="start"
-                    >
-                      <Typography
-                        style={content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null}
-                      >
-                        sqft
-                      </Typography>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle calculate"
-                        onClick={calculateEstimate}
-                        edge="end"
-                        style={content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null}
-                      >
-                        <ArrowCircleRightIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Box>
-          </CardContent>
-        </Box>
-      </Slide>
-      <Slide direction="left" in={componentPhase === 3} mountOnEnter unmountOnExit exit={false}>
+        </Slide>
+        <Slide direction="left" in={componentPhase === 2} mountOnEnter unmountOnExit exit={false}>
           <Box>
             <CardHeader
                 style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
-                title="Your Instant Quote"
+                title={jobType === 'Gutters' ? 'What is the total length of your gutters?' : `What is the square footage of your ${jobType}?`}
             />
             <CardContent style={classes.cardContent}>
-              <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.estimate } : classes.estimate}>
-                <Typography fontSize={44}><b>{estimate}</b></Typography>
-              </Box>
-              <Box style={classes.buttonGroup} mt={6}>
-                <Button
-                  buttonStyle={content?.FormButtonStyle}
-                  color={content?.ButtonColor}
-                  onClick={() => setComponentPhase(1)}
-                  endIcon={<RestartAltIcon style={content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null} />}
-                >
-                  Restart
-                </Button>
-                <Button
-                  buttonStyle={content?.FormButtonStyle}
-                  color={content?.ButtonColor}
-                  onClick={() => setComponentPhase(4)}
-                >
-                  Schedule a Job
-                </Button>
+              <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.inputSmall } : classes.inputSmall}>
+                <CSSTextField
+                  borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
+                  inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
+                  value={sizeEntry}
+                  onChange={event => event.target.value >= 0 ? setSizeEntry(event.target.value) : {}}
+                  id="size-input"
+                  label={ jobType === 'Gutters' ? 'Feet' : 'Square Feet'}
+                  required
+                  color='primary'
+                  type="number"
+                  fullWidth
+                  min={0}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                      >
+                        <Typography
+                          style={content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null}
+                        >
+                          { jobType === 'Gutters' ? 'ft' : 'sqft'}
+                        </Typography>
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle calculate"
+                          onClick={calculateEstimate}
+                          edge="end"
+                          style={content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null}
+                        >
+                          <ArrowCircleRightIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
               </Box>
             </CardContent>
           </Box>
         </Slide>
-        <Slide direction="left" in={componentPhase === 4} mountOnEnter unmountOnExit exit={false}>
-          <Box>
-            <CardHeader
-              style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
-              title="Request an Appointment"
-            />
-            <CardContent style={{ ...classes.cardContent, height: 450 }}>
-              <form noValidate autoComplete="off">
-                <Box style={classes.buttonGroup}>
-                    <Box
-                      style={content?.ButtonColor
-                        ? { backgroundColor: content.ButtonColor, ...classes.inputSmall }
-                        : { ...classes.inputSmall }}
-                    >
-                      <CSSTextField
+        <Slide direction="left" in={componentPhase === 3} mountOnEnter unmountOnExit exit={false}>
+            <Box>
+              <CardHeader
+                  style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
+                  title="Your Instant Quote"
+              />
+              <CardContent style={classes.cardContent}>
+                <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.estimate } : classes.estimate}>
+                  <Typography fontSize={44}><b>{estimate}</b></Typography>
+                </Box>
+                <Box style={classes.buttonGroup} mt={6}>
+                  <Button
+                    buttonStyle={content?.FormButtonStyle}
+                    color={content?.ButtonColor}
+                    onClick={() => setComponentPhase(1)}
+                    endIcon={<RestartAltIcon style={content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null} />}
+                  >
+                    Restart
+                  </Button>
+                  <Button
+                    buttonStyle={content?.FormButtonStyle}
+                    color={content?.ButtonColor}
+                    onClick={() => setComponentPhase(4)}
+                  >
+                    Schedule a Job
+                  </Button>
+                </Box>
+              </CardContent>
+            </Box>
+          </Slide>
+          <Slide direction="left" in={componentPhase === 4} mountOnEnter unmountOnExit exit={false}>
+            <Box>
+              <CardHeader
+                style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
+                title="Request an Appointment"
+              />
+              <CardContent style={{ ...classes.cardContent, height: 450 }}>
+                <form noValidate autoComplete="off">
+                  <Box style={classes.buttonGroup}>
+                      <Box
+                        style={content?.ButtonColor
+                          ? { backgroundColor: content.ButtonColor, ...classes.inputSmall }
+                          : { ...classes.inputSmall }}
+                      >
+                        <CSSTextField
+                            borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
+                            inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
+                            value={data.first}
+                            error={error.first}
+                            helperText={error.first ? 'First Name is Invalid' : ''}
+                            onChange={event => { handleFormChange(event.target.value, 'first') }}
+                            color='primary'
+                            id="first-name"
+                            label="First Name"
+                            fullWidth
+                            required
+                        />
+                      </Box>
+                      <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.inputSmall } : classes.inputSmall}>
+                        <CSSTextField
                           borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
                           inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
-                          value={data.first}
-                          error={error.first}
-                          helperText={error.first ? 'First Name is Invalid' : ''}
-                          onChange={event => { handleFormChange(event.target.value, 'first') }}
-                          color='primary'
-                          id="first-name"
-                          label="First Name"
+                          value={data.last}
+                          error={error.last}
+                          helperText={error.last ? 'Last Name is Invalid' : ''}
+                          onChange={event => { handleFormChange(event.target.value, 'last') }}
+                          id="last-name"
+                          label="Last Name"
                           fullWidth
                           required
-                      />
+                        />
+                      </Box>
+                      <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.inputSmall } : classes.inputSmall}>
+                        <CSSTextField
+                          borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
+                          inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
+                          value={data.email}
+                          error={error.email}
+                          helperText={error.email ? 'Email/Phone Number is Invalid' : ''}
+                          onChange={event => { handleFormChange(event.target.value, 'email') }}
+                          id="email"
+                          label="Email or Phone Number"
+                          fullWidth
+                          required
+                        />
+                      </Box>
                     </Box>
-                    <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.inputSmall } : classes.inputSmall}>
-                      <CSSTextField
-                        borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
-                        inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
-                        value={data.last}
-                        error={error.last}
-                        helperText={error.last ? 'Last Name is Invalid' : ''}
-                        onChange={event => { handleFormChange(event.target.value, 'last') }}
-                        id="last-name"
-                        label="Last Name"
-                        fullWidth
-                        required
-                      />
+                    <Box mt={3}>
+                      <Button
+                        disabled={loading}
+                        buttonStyle={content?.FormButtonStyle}
+                        color={content?.ButtonColor}
+                        onClick={sendEmail}
+                      >
+                        Submit
+                      </Button>
                     </Box>
-                    <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.inputSmall } : classes.inputSmall}>
-                      <CSSTextField
-                        borderColor={content?.Style?.TextColor ? content.Style.TextColor : '#ffffff'}
-                        inputProps={{ sx: content?.Style?.TextColor ? { color: content?.Style?.TextColor } : null }}
-                        value={data.email}
-                        error={error.email}
-                        helperText={error.email ? 'Email/Phone Number is Invalid' : ''}
-                        onChange={event => { handleFormChange(event.target.value, 'email') }}
-                        id="email"
-                        label="Email or Phone Number"
-                        fullWidth
-                        required
-                      />
-                    </Box>
-                  </Box>
-                  <Box mt={3}>
-                    <Button
-                      disabled={loading}
-                      buttonStyle={content?.FormButtonStyle}
-                      color={content?.ButtonColor}
-                      onClick={sendEmail}
-                    >
-                      Submit
-                    </Button>
-                  </Box>
-              </form>
-            </CardContent>
-          </Box>
+                </form>
+              </CardContent>
+            </Box>
+          </Slide>
+          <Slide direction="left" in={componentPhase === 5} mountOnEnter unmountOnExit exit={false}>
+            <Box>
+            <CardHeader
+                style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
+                title="Thank You for Choosing Us"
+              />
+              <CardContent style={classes.cardContent}>
+                <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.estimate } : classes.estimate}>
+                    <Typography fontSize={24}>We will be reaching out to you shortly</Typography>
+                </Box>
+              </CardContent>
+            </Box>
         </Slide>
-        <Slide direction="left" in={componentPhase === 5} mountOnEnter unmountOnExit exit={false}>
-          <Box>
-          <CardHeader
-              style={content?.ButtonColor ? { backgroundColor: content.ButtonColor } : null}
-              title="Thank You for Choosing Us"
-            />
-            <CardContent style={classes.cardContent}>
-              <Box style={content?.ButtonColor ? { backgroundColor: content.ButtonColor, ...classes.estimate } : classes.estimate}>
-                  <Typography fontSize={24}>We will be reaching out to you shortly</Typography>
-              </Box>
-            </CardContent>
-          </Box>
-      </Slide>
-    </Card>
+      </Card>
+    </Box>
   )
 }

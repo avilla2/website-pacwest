@@ -11,6 +11,15 @@ query Website($id: ID) {
       id
       attributes {
         Name
+        locale
+        localizations {
+          data {
+            id
+            attributes {
+              locale
+            }
+          }
+        }
         Navbar{
           data {
             id
