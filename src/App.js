@@ -87,6 +87,7 @@ const createThemeConfigs = ({ Palette }) => {
 const RegularRoutes = ({ page, setPage, navIndex, setNavIndex, siteId, setSiteId, Footer, Navbar, Homepage, ContentPages, SiteSettings }) => {
   return (
     <>
+      <ScrollToTop />
       <SiteNavbar siteId={siteId} setSiteId={setSiteId} page={page} navIndex={navIndex} minSize={SiteSettings.data.attributes.DesktopBreakpoint} {...Navbar.data.attributes} />
         <Routes>
           {ContentPages.data.map((item, key) => (
@@ -119,7 +120,6 @@ export default function App () {
             return (
               <ThemeProvider theme={createThemeConfigs(websiteContent.SiteSettings.data.attributes)}>
                 <Router>
-                  <ScrollToTop />
                   <RegularRoutes setPage={setPage} page={page} {...websiteContent} setNavIndex={setNavIndex} navIndex={navIndex} siteId={siteId} setSiteId={setSiteId}/>
                 </Router>
               </ThemeProvider>
